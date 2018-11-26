@@ -11,7 +11,7 @@ namespace StringFunApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new VideoPlayerView());
         }
 
         protected override void OnStart()

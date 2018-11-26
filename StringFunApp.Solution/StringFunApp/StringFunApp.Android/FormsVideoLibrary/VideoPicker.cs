@@ -4,7 +4,7 @@ using Android.Content;
 using Xamarin.Forms;
 
 // Need application's MainActivity
-using VideoPlayerDemos.Droid;
+using StringFunApp.Droid;
 
 [assembly: Dependency(typeof(FormsVideoLibrary.Droid.VideoPicker))]
 
