@@ -1,6 +1,9 @@
 ﻿using FormsVideoLibrary;
+using StringFunApp.ClassLibrary;
+using StringFunApp.ClassLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +16,14 @@ namespace StringFunApp
         public VideoPlayerView()
         {
             InitializeComponent();
+            BindingContext = new VideoPlayerViewModel();
         }
 
-        void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+        /*void OnPickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;
-            var videoLijst = new List<VideoInfo>();
-
-            videoLijst.Add(new VideoInfo {  });
-
-            FasesEnStappen.ItemsSource = videoLijst;
-        }
+            
+        }*/
     }
 }

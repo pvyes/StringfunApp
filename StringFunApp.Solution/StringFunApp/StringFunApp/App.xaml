@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             
-            <!--#region Violin-->
+            <!--#region Violin--><!--
             <video:UriVideoSource 
                 x:Key="ViolinFase1Stap1Deel1" 
                 Uri="https://videos.weebly.com/uploads/1/9/4/9/19490871/30_strijkstokhouding_potlood_891.mp4"></video:UriVideoSource>
@@ -42,7 +42,7 @@
             <video:UriVideoSource 
                 x:Key="ViolinFase1Stap3Deel3" 
                 Uri="https://videos.weebly.com/uploads/1/9/4/9/19490871/28_open_en_dicht_op_de_schouder_178.mp4"></video:UriVideoSource>
-            <!--#endregion-->
+            --><!--#endregion-->
             
         </ResourceDictionary>
     </Application.Resources>

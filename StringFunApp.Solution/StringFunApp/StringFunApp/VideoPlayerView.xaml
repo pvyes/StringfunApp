@@ -6,12 +6,16 @@
              x:Class="StringFunApp.VideoPlayerView">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         
         <video:VideoPlayer x:Name="videoPlayer" Grid.Row="0" 
-                           Source="https://videos.weebly.com/uploads/1/9/4/9/19490871/1_de_strijkstokhouding_potlood_cello_744.mp4"></video:VideoPlayer>
+                           Source="{Binding Source={x:Reference FasesEnStappen},
+                                            Path=SelectedItem.VideoSource}"></video:VideoPlayer>
 
-        <Picker x:Name="pickFasePlusStap" Title="Kies een Fase en Stap" Grid.Row="1">
+        <!--<Picker x:Name="pickFasePlusStap" Title="Kies een Fase en Stap" Grid.Row="1">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Fase 1 Stap 1</x:String>
@@ -19,8 +23,18 @@
                     <x:String>Fase 1 Stap 3</x:String>
                 </x:Array>
             </Picker.ItemsSource>
-        </Picker>
+        </Picker>-->
 
-        <ListView x:Name="FasesEnStappen" Grid.Row="2"></ListView>
+        <ListView x:Name="FasesEnStappen" Grid.Row="1" ItemsSource="{Binding Videos}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label Text="{Binding DisplayName}"></Label>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </ContentPage>
