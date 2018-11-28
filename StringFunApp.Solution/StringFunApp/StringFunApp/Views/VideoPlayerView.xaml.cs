@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace StringFunApp
+namespace StringFunApp.Views
 {
     public partial class VideoPlayerView : ContentPage
     {

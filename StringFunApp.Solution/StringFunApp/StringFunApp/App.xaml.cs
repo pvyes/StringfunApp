@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringFunApp.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace StringFunApp
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new VideoPlayerView());
+            MainPage = new NavigationPage(new MainView());
         }
 
         protected override void OnStart()

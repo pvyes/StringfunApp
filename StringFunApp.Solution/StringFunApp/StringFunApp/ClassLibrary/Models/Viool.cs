@@ -6,6 +6,6 @@ namespace StringFunApp.ClassLibrary.Models
 {
     public class Viool : Instrument
     {
-        public string Naam { get; set; }
+        public string Naam { get; set; } = "Viool";
     }
 }
