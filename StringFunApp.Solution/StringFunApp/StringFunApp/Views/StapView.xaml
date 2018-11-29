@@ -4,9 +4,14 @@
              x:Class="StringFunApp.Views.StapView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
+                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
+            </Grid>
+            <ListView x:Name="Stappen" ItemsSource="{Binding StappenLijst}"></ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

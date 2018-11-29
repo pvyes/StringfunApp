@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringFunApp.ClassLibrary.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace StringFunApp.Views
 		public StapView (int boeknummer, string typeinstrument)
 		{
 			InitializeComponent ();
+            BindingContext = new StapViewModel(this.Navigation ,boeknummer, typeinstrument);
 		}
 	}
 }

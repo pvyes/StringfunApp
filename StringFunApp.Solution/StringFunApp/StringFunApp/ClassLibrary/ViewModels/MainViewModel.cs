@@ -11,12 +11,23 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private INavigation navigation;
-
         public MainViewModel(INavigation navigation)
         {
             this.navigation = navigation;
+            VioolKnopKleur = "Default";
+            AltvioolKnopKleur = "Default";
+            CelloKnopKleur = "Default";
+        }
+
+        #region properties
+        public event PropertyChangedEventHandler PropertyChanged;
+        private INavigation navigation;
+
+        private bool enabled;
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; RaisePropertyChanged(nameof(Enabled)); }
         }
 
         private int boeknummer;
@@ -33,62 +44,62 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { typeinstrument = value; RaisePropertyChanged(nameof(TypeInstrument)); }
         }
 
-        public ICommand KiesViool => new Command(
-            () => { TypeInstrument = "Viool"; }
+        private string vioolknopkleur;
+        public string VioolKnopKleur
+        {
+            get { return vioolknopkleur; }
+            set { vioolknopkleur = value; RaisePropertyChanged(nameof(VioolKnopKleur)); }
+        }
+
+        private string altvioolknopkleur;
+        public string AltvioolKnopKleur
+        {
+            get { return altvioolknopkleur; }
+            set { altvioolknopkleur = value; RaisePropertyChanged(nameof(AltvioolKnopKleur)); }
+        }
+
+        private string celloknopkleur;
+        public string CelloKnopKleur
+        {
+            get { return celloknopkleur; }
+            set { celloknopkleur = value; RaisePropertyChanged(nameof(CelloKnopKleur)); }
+        }
+        #endregion
+
+        public ICommand KiesInstrument => new Command<string>(
+            (string instrument) => { TypeInstrument = instrument; SelectedInstrument(TypeInstrument); Enabled = true; }
             );
 
-        public ICommand KiesAltviool => new Command(
-            () => { TypeInstrument = "Altviool"; }
+        public ICommand KiesBoek => new Command<string>(
+            (string num) => { int nummer = Convert.ToInt32(num); BoekNummer = nummer; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
             );
 
-        public ICommand KiesCello => new Command(
-            () => { TypeInstrument = "Cello"; }
-            );
-
-        public ICommand KiesBoek1 => new Command(
-            () => { BoekNummer = 1; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); },
-            () =>
+        public void SelectedInstrument(string type)
+        {
+            switch (type)
             {
-                if (TypeInstrument != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            );
+                case "Viool":
+                    VioolKnopKleur = "Yellow";
+                    AltvioolKnopKleur = "Default";
+                    CelloKnopKleur = "Default";
+                        break;
 
-        public ICommand KiesBoek2 => new Command(
-            () => { BoekNummer = 2; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); },
-            () =>
-            {
-                if (TypeInstrument != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            );
+                case "Altviool":
+                    VioolKnopKleur = "Default";
+                    AltvioolKnopKleur = "Yellow";
+                    CelloKnopKleur = "Default";
+                    break;
 
-        public ICommand KiesBoek3 => new Command(
-            () => { BoekNummer = 3; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); },
-            () =>
-            {
-                if (TypeInstrument != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                case "Cello":
+                    VioolKnopKleur = "Default";
+                    AltvioolKnopKleur = "Default";
+                    CelloKnopKleur = "Yellow";
+                    break;
+
+                default:
+                    break;
             }
-            );
+        }
 
         private void RaisePropertyChanged(string propertyName)
         {

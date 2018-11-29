@@ -6,9 +6,9 @@ namespace StringFunApp.ClassLibrary.Models
 {
     public class Stap
     {
-        public Guid Id { get; set; }
+        public int Nummer { get; set; }
         public Instrument Instrument { get; set; }
-        public int BoekNummer { get; set; }
-        public List<VideoInfo> Videos { get; set; }
+        //public int BoekNummer { get; set; }
+        public List<VideoInfo> VideoLijst { get; set; }
     }
 }
