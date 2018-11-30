@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace MVVMBasics.Behaviors
+namespace StringFunApp.Behaviors
 {
     public class BindableBehavior<T> : Behavior<T> where T : BindableObject
     {

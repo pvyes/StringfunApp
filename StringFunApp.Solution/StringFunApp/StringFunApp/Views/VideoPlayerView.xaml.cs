@@ -1,5 +1,6 @@
 ﻿using FormsVideoLibrary;
 using StringFunApp.ClassLibrary;
+using StringFunApp.ClassLibrary.Models;
 using StringFunApp.ClassLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,10 @@ namespace StringFunApp.Views
 {
     public partial class VideoPlayerView : ContentPage
     {
-        public VideoPlayerView()
+        public VideoPlayerView(Stap stap)
         {
             InitializeComponent();
-            BindingContext = new VideoPlayerViewModel();
+            BindingContext = new VideoPlayerViewModel(stap);
         }
-
-        /*void OnPickerSelectedIndexChanged(object sender, EventArgs e)
-        {
-            var picker = (Picker)sender;
-            int selectedIndex = picker.SelectedIndex;
-            
-        }*/
     }
 }

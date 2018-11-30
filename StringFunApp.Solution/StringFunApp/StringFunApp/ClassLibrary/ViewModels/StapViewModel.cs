@@ -1,8 +1,10 @@
-﻿using System;
+﻿using StringFunApp.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace StringFunApp.ClassLibrary.ViewModels
@@ -12,6 +14,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument)
         {
             this.navigation = navigation;
+            StapFactory = new StapFactory();
             BoekNummer = boeknummer;
             TypeInstrument = typeinstrument;
             GetStappen(BoekNummer);
@@ -36,6 +39,13 @@ namespace StringFunApp.ClassLibrary.ViewModels
         {
             get { return stappenlijst; }
             set { stappenlijst = value; RaisePropertyChanged(nameof(StappenLijst)); }
+        }
+
+        private string selectedstap;
+        public string SelectedStap
+        {
+            get { return selectedstap; }
+            set { selectedstap = value; RaisePropertyChanged(nameof(SelectedStap)); }
         }
 
 
@@ -68,7 +78,13 @@ namespace StringFunApp.ClassLibrary.ViewModels
             return StappenLijst;
         }
 
+        public ICommand ViewStap => new Command(
+            async() => { var NieuweStap = await StapFactory.CreateStap(SelectedStap, TypeInstrument); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
+            );
+
         private INavigation navigation;
+
+        private StapFactory StapFactory;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
