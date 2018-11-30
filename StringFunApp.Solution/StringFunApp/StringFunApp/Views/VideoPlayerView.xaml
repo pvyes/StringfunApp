@@ -7,15 +7,18 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <video:VideoPlayer x:Name="videoPlayer" Grid.Row="0" 
+        <Label Grid.Row="0">Stringfun</Label>
+        
+        <video:VideoPlayer x:Name="videoPlayer" Grid.Row="1" 
                            Source="{Binding Source={x:Reference StapVideos},
                                             Path=SelectedItem.VideoSource}"></video:VideoPlayer>
 
-        <ListView x:Name="StapVideos" Grid.Row="1" ItemsSource="{Binding Videos}">
+        <ListView x:Name="StapVideos" Grid.Row="2" ItemsSource="{Binding Videos}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

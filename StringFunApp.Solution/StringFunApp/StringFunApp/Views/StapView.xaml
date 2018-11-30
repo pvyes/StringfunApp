@@ -9,18 +9,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
-                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
+                <Label Grid.Row="0" Grid.Column="0">Stringfun</Label>
+                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
+                <Label Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
             </Grid>
-            <ListView x:Name="Stappen" ItemsSource="{Binding StappenLijst}">
-                <ListView.Behaviors>
-                    <bhv:EventToCommandBehavior
-                        EventName="ItemTapped"
-                        Command="{Binding ViewStap}"
-                        CommandParameter="{Binding .}"
-                        EventArgsConverter="{StaticResource ItemTappedEventArgsConv}"></bhv:EventToCommandBehavior>
-                </ListView.Behaviors>
-            </ListView>
+            <Picker x:Name="Stappen" ItemsSource="{Binding StappenLijst}" SelectedItem="{Binding SelectedStap}">
+                <Picker.Behaviors>
+                    <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ViewStap}"></bhv:EventToCommandBehavior>
+                </Picker.Behaviors>
+            </Picker>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

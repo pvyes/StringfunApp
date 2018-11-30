@@ -41,6 +41,13 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { stappenlijst = value; RaisePropertyChanged(nameof(StappenLijst)); }
         }
 
+        private string selectedstap;
+        public string SelectedStap
+        {
+            get { return selectedstap; }
+            set { selectedstap = value; RaisePropertyChanged(nameof(SelectedStap)); }
+        }
+
 
         public ObservableCollection<string> GetStappen(int boeknummer)
         {
@@ -71,8 +78,8 @@ namespace StringFunApp.ClassLibrary.ViewModels
             return StappenLijst;
         }
 
-        public ICommand ViewStap => new Command<string>(
-            async(string stap) => { var NieuweStap = await StapFactory.CreateStap(stap, TypeInstrument); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
+        public ICommand ViewStap => new Command(
+            async() => { var NieuweStap = await StapFactory.CreateStap(SelectedStap, TypeInstrument); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
             );
 
         private INavigation navigation;

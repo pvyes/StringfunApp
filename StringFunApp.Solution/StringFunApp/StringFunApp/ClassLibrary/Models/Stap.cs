@@ -8,7 +8,7 @@ namespace StringFunApp.ClassLibrary.Models
     public class Stap
     {
         public int Nummer { get; set; }
-        public Instrument Instrument { get; set; }
+        public string Instrument { get; set; }
         //public int BoekNummer { get; set; }
         public ObservableCollection<VideoInfo> VideoLijst { get; set; }
     }
