@@ -72,7 +72,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         }
 
         public ICommand ViewStap => new Command<string>(
-            async(string stap) => { var NieuweStap = await StapFactory.CreateStap(stap); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
+            async(string stap) => { var NieuweStap = await StapFactory.CreateStap(stap, TypeInstrument); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
             );
 
         private INavigation navigation;

@@ -28,14 +28,14 @@ namespace StringFunApp.ClassLibrary
             return Videos;
         }
 
-        public async Task<Stap> CreateStap(string stap /*int boeknummer*/)
+        public async Task<Stap> CreateStap(string stap, string instrument)
         {
             Stap InMemoryStap;
             ObservableCollection<VideoInfo> StapVideos = new ObservableCollection<VideoInfo>();
             await GetVideos();
             foreach (VideoInfo video in Videos)
             {
-                if (video.UniekeNaam.Contains(stap.Replace(" ", "")))
+                if (video.UniekeNaam.Contains(stap.Replace(" ", "")) && video.UniekeNaam.Contains(instrument))
                 {
                     StapVideos.Add(video);
                 }
