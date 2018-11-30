@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace StringFunApp.ClassLibrary.Models
@@ -9,6 +10,6 @@ namespace StringFunApp.ClassLibrary.Models
         public int Nummer { get; set; }
         public Instrument Instrument { get; set; }
         //public int BoekNummer { get; set; }
-        public List<VideoInfo> VideoLijst { get; set; }
+        public ObservableCollection<VideoInfo> VideoLijst { get; set; }
     }
 }

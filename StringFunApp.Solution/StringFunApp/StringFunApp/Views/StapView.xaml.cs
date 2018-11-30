@@ -16,7 +16,7 @@ namespace StringFunApp.Views
 		public StapView (int boeknummer, string typeinstrument)
 		{
 			InitializeComponent ();
-            BindingContext = new StapViewModel(this.Navigation ,boeknummer, typeinstrument);
+            BindingContext = new StapViewModel(this.Navigation, boeknummer, typeinstrument);
 		}
 	}
 }

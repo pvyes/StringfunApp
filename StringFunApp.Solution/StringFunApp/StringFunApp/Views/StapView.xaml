@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
              x:Class="StringFunApp.Views.StapView">
     <ContentPage.Content>
         <StackLayout>
@@ -11,7 +12,15 @@
                 <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
                 <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
             </Grid>
-            <ListView x:Name="Stappen" ItemsSource="{Binding StappenLijst}"></ListView>
+            <ListView x:Name="Stappen" ItemsSource="{Binding StappenLijst}">
+                <ListView.Behaviors>
+                    <bhv:EventToCommandBehavior
+                        EventName="ItemTapped"
+                        Command="{Binding ViewStap}"
+                        CommandParameter="{Binding .}"
+                        EventArgsConverter="{StaticResource ItemTappedEventArgsConv}"></bhv:EventToCommandBehavior>
+                </ListView.Behaviors>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

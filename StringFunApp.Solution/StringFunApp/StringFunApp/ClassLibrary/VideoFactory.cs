@@ -29,8 +29,9 @@ namespace StringFunApp.ClassLibrary
             new VideoInfo{UniekeNaam = "Violin1Boek1Stap3Deel3", DisplayName = "Violin Boek 1 Stap 3 Deel 3", VideoSource = VideoSource.FromUri("https://videos.weebly.com/uploads/1/9/4/9/19490871/28_open_en_dicht_op_de_schouder_178.mp4")},
         };
 
-        public IEnumerable<VideoInfo> GetAll()
+        public async Task<IEnumerable<VideoInfo>> GetAll()
         {
+            await Task.Delay(0);
             return InMemoryVideos;
         }
     }

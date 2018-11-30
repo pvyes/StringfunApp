@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringFunApp.ClassLibrary.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,8 +11,6 @@ namespace StringFunApp.ClassLibrary.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private VideoFactory VideoFactory;
-
         private ObservableCollection<VideoInfo> videos;
         public ObservableCollection<VideoInfo> Videos
         {
@@ -19,10 +18,9 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { videos = value; RaisePropertyChanged(nameof(Videos)); }
         }
 
-        public VideoPlayerViewModel()
+        public VideoPlayerViewModel(Stap stap)
         {
-            VideoFactory = new VideoFactory();
-            Videos = new ObservableCollection<VideoInfo>(VideoFactory.GetAll());
+            Videos = stap.VideoLijst;
         }
 
         private void RaisePropertyChanged(string propertyName)

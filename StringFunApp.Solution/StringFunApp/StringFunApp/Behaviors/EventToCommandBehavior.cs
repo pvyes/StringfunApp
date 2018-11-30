@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace MVVMBasics.Behaviors
+namespace StringFunApp.Behaviors
 {
     public class EventToCommandBehavior : BindableBehavior<View>
     {
