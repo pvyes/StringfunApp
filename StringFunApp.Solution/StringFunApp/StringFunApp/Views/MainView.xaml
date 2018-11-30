@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StringFunApp.Views.MainView">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Viool" BackgroundColor="{Binding VioolKnopKleur}" Text="Viool"></Button>
+            <Button Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Altviool" BackgroundColor="{Binding AltvioolKnopKleur}" Text="AltViool"></Button>
+            <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Cello" BackgroundColor="{Binding CelloKnopKleur}" Text="Cello"></Button>
+            <Button Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="1" IsEnabled="{Binding Enabled}" Text="Boek 1"></Button>
+            <Button Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="2" IsEnabled="{Binding Enabled}" Text="Boek 2"></Button>
+            <Button Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="3" IsEnabled="{Binding Enabled}" Text="Boek 3"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
