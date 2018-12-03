@@ -3,11 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace StringFunApp.ClassLibrary
 {
     public class VideoFactory
     {
+        private XmlReader reader;
+
+        public VideoFactory()
+        {
+            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
+        }
+
         static List<VideoInfo> InMemoryVideos = new List<VideoInfo>
         {
             new VideoInfo{UniekeNaam = "VioolAltvioolStap1Deel1", DisplayName = "Stap 1 Deel 1", VideoSource = VideoSource.FromUri("https://videos.weebly.com/uploads/1/9/4/9/19490871/30_strijkstokhouding_potlood_891.mp4")},
@@ -33,7 +41,10 @@ namespace StringFunApp.ClassLibrary
 
         public async Task<IEnumerable<VideoInfo>> GetAll()
         {
-            await Task.Delay(0);
+            while (await reader.ReadAsync())
+            {
+
+            }
             return InMemoryVideos;
         }
     }
