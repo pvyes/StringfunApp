@@ -28,6 +28,7 @@ namespace StringFunApp.ClassLibrary
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Async = true;
             settings.DtdProcessing = DtdProcessing.Parse;
             settings.ValidationType = ValidationType.DTD;
             settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
