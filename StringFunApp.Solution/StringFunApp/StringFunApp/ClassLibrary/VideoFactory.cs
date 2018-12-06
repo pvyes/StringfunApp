@@ -11,7 +11,7 @@ namespace StringFunApp.ClassLibrary
     {
         private XmlReader reader;
 
-        public async Task<IEnumerable<VideoInfo>> GetAll(string instrument, string stap)
+        public async Task<IEnumerable<VideoInfo>> GetVideos(string instrument, string stap)
         {
             reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
             List<VideoInfo> InMemoryVideos = new List<VideoInfo>();
