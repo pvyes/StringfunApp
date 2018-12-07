@@ -29,31 +29,27 @@ namespace StringFunApp.ClassLibrary
         {
             reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml");
             List<string> videoIds = new List<string>();
-            while (await reader.ReadAsync())
+            while (await reader.ReadAsync() && videoIds.Count == 0)
             {
                 reader.ReadToFollowing("instrument");
-                if (reader.NodeType == XmlNodeType.Element && reader.Name == "instrument")
+                if (reader.GetAttribute("name").Contains(instrument))
                 {
-                    if (reader.GetAttribute("name").Contains(instrument))
+                    var inner = reader.ReadSubtree();
+                    while (await inner.ReadAsync())
                     {
-                        var inner = reader.ReadSubtree();
-                        while (await inner.ReadAsync())
+                        if (inner.MoveToContent() == XmlNodeType.Element && inner.Name == "step" && inner.GetAttribute("number") == stap.Replace("Stap ", ""))
                         {
-                            inner.ReadToFollowing("step");
-                            if (inner.GetAttribute("number").Contains(stap.Replace("Stap ", "")))
+                            inner.ReadToFollowing("videoid");
+                            do
                             {
-                                inner.ReadToFollowing("videoid");
-                                while (inner.ReadToNextSibling("videoid"))
-                                {
-                                    string videoId = reader.ReadString();
-                                    videoIds.Add(videoId);
-                                }
-                            }
+                                string videoId = reader.ReadString();
+                                videoIds.Add(videoId);
+                            } while (inner.ReadToNextSibling("videoid"));
                         }
                     }
                 }
             }
-            Videos = new List<VideoInfo>(await VideoFactory.GetVideos(instrument, stap));
+            Videos = new List<VideoInfo>(await VideoFactory.GetVideos(videoIds));
             Stap InMemoryStap;
             ObservableCollection<VideoInfo> StapVideos = new ObservableCollection<VideoInfo>();
             foreach (VideoInfo video in Videos)

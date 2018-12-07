@@ -11,7 +11,7 @@ namespace StringFunApp.ClassLibrary
     {
         private XmlReader reader;
 
-        public async Task<IEnumerable<VideoInfo>> GetVideos(string instrument, string stap)
+        public async Task<IEnumerable<VideoInfo>> GetVideos(List<string> videoIds)
         {
             reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
             List<VideoInfo> InMemoryVideos = new List<VideoInfo>();
@@ -20,20 +20,23 @@ namespace StringFunApp.ClassLibrary
                 reader.ReadToFollowing("video");
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "video")
                 {
-                    if (reader.GetAttribute("id").Contains(stap.Replace(" ", "")) && reader.GetAttribute("id").Contains(instrument))
+                    foreach (var id in videoIds)
                     {
-                        string uniekenaam;
-                        string displayname;
-                        string videosource;
-                        var inner = reader.ReadSubtree();
-                        inner.ReadToFollowing("videoname");
-                        uniekenaam = inner.ReadString();
-                        inner.ReadToFollowing("title");
-                        displayname = inner.ReadString();
-                        inner.ReadToFollowing("source");
-                        videosource = inner.ReadString();
-                        VideoInfo video = new VideoInfo { UniekeNaam = uniekenaam, DisplayName = displayname, VideoSource = VideoSource.FromUri(videosource) };
-                        InMemoryVideos.Add(video);
+                        if (reader.GetAttribute("id") == id)
+                        {
+                            string uniekenaam;
+                            string displayname;
+                            string videosource;
+                            var inner = reader.ReadSubtree();
+                            inner.ReadToFollowing("videoname");
+                            uniekenaam = inner.ReadString();
+                            inner.ReadToFollowing("title");
+                            displayname = inner.ReadString();
+                            inner.ReadToFollowing("source");
+                            videosource = inner.ReadString();
+                            VideoInfo video = new VideoInfo { UniekeNaam = uniekenaam, DisplayName = displayname, VideoSource = VideoSource.FromUri(videosource) };
+                            InMemoryVideos.Add(video);
+                        }
                     }
                 }
             }
