@@ -17,22 +17,8 @@ namespace StringFunApp.Views
 		public MainView ()
 		{
 			InitializeComponent ();
-            InitializeButtons();
-            BindingContext = new MainViewModel(this.Navigation);
+            var knoppenVerzameling = KnoppenVerzameling;
+            BindingContext = new MainViewModel(this.Navigation, knoppenVerzameling);
 		}
-
-        public void InitializeButtons()
-        {
-            Stringfun stringfun = new Stringfun();
-            var instruments = stringfun.GetInstruments();
-            var boeken = stringfun.GetBooks();
-            int column = -1;
-            foreach (var instrument in instruments)
-            {
-                var instrumentKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = instrument.Naam, Text = instrument.Naam };
-                instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
-                KnoppenGrid.Children.Add(instrumentKnop);
-            }
-        }
 	}
 }

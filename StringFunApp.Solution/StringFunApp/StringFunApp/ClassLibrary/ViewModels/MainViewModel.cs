@@ -11,9 +11,11 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel(INavigation navigation)
+        public MainViewModel(INavigation navigation, FlexLayout knoppenVerzameling)
         {
             this.navigation = navigation;
+            knoppen = knoppenVerzameling;
+            InitializeButtons();
             VioolKnopKleur = "Default";
             AltvioolKnopKleur = "Default";
             CelloKnopKleur = "Default";
@@ -22,6 +24,13 @@ namespace StringFunApp.ClassLibrary.ViewModels
         #region properties
         public event PropertyChangedEventHandler PropertyChanged;
         private INavigation navigation;
+
+        private FlexLayout knoppen;
+        public FlexLayout Knoppen
+        {
+            get { return knoppen; }
+            set { knoppen = value; RaisePropertyChanged(nameof(Knoppen)); }
+        }
 
         private bool enabled;
         public bool Enabled
@@ -98,6 +107,25 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
                 default:
                     break;
+            }
+        }
+
+        public void InitializeButtons()
+        {
+            Stringfun stringfun = new Stringfun();
+            var instruments = stringfun.GetInstruments();
+            var boeken = stringfun.GetBooks();
+            foreach (var instrument in instruments)
+            {
+                var instrumentKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = instrument.Naam, Text = instrument.Naam };
+                instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
+                knoppen.Children.Add(instrumentKnop);
+            }
+            foreach (var boek in boeken)
+            {
+                var boekKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
+                boekKnop.SetBinding(Button.CommandProperty, new Binding("KiesBoek"));
+                knoppen.Children.Add(boekKnop);
             }
         }
 
