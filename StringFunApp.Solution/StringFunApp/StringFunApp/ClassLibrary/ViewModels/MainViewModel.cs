@@ -79,8 +79,8 @@ namespace StringFunApp.ClassLibrary.ViewModels
             (string instrument) => { TypeInstrument = instrument; SelectedInstrument(TypeInstrument); Enabled = true; }
             );
 
-        public ICommand KiesBoek => new Command<string>(
-            (string num) => { int nummer = Convert.ToInt32(num); BoekNummer = nummer; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
+        public ICommand KiesBoek => new Command<int>(
+            (int num) => { BoekNummer = num; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
             );
 
         public void SelectedInstrument(string type)
@@ -119,12 +119,14 @@ namespace StringFunApp.ClassLibrary.ViewModels
             {
                 var instrumentKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = instrument.Naam, Text = instrument.Naam };
                 instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
+                instrumentKnop.SetBinding(Button.BackgroundColorProperty, new Binding(instrument.Naam + "KnopKleur"));
                 knoppen.Children.Add(instrumentKnop);
             }
             foreach (var boek in boeken)
             {
                 var boekKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
                 boekKnop.SetBinding(Button.CommandProperty, new Binding("KiesBoek"));
+                boekKnop.SetBinding(Button.IsEnabledProperty, new Binding("Enabled"));
                 knoppen.Children.Add(boekKnop);
             }
         }

@@ -9,7 +9,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">Stringfun</Label>
+                <Image Grid.Row="0" Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
                 <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
                 <Label Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
             </Grid>
