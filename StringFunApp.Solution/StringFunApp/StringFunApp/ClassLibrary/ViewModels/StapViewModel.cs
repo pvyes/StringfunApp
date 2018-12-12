@@ -1,4 +1,5 @@
-﻿using StringFunApp.Views;
+﻿using StringFunApp.ClassLibrary.Models;
+using StringFunApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument)
         {
             this.navigation = navigation;
-            StapFactory = new StapFactory();
+            Stringfun = new Stringfun();
             BoekNummer = boeknummer;
             TypeInstrument = typeinstrument;
             GetStappen(BoekNummer);
@@ -50,7 +51,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
         private INavigation navigation;
 
-        private StapFactory StapFactory;
+        private Stringfun Stringfun;
 
         public ObservableCollection<string> GetStappen(int boeknummer)
         {
@@ -86,7 +87,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
             {
                 try
                 {
-                    var NieuweStap = await StapFactory.CreateStap(SelectedStap, TypeInstrument);
+                    var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
                     await navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
                 catch (Exception)

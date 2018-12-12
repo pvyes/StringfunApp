@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FormsVideoLibrary;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,13 @@ namespace StringFunApp.ClassLibrary.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private XmlReader reader;
+
+        private List<VideoInfo> videos;
+        public List<VideoInfo> Videos
+        {
+            get { return videos; }
+            set { videos = value; }
+        }
 
         public IEnumerable<Instrument> GetInstruments()
         {
@@ -54,6 +63,73 @@ namespace StringFunApp.ClassLibrary.Models
                 boeken.Add(boek);
             } while (reader.ReadToFollowing("book"));
             return boeken;
+        }
+
+        public async Task<IEnumerable<VideoInfo>> GetVideos(List<string> videoIds)
+        {
+            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
+            List<VideoInfo> InMemoryVideos = new List<VideoInfo>();
+            while (await reader.ReadAsync())
+            {
+                reader.ReadToFollowing("video");
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "video")
+                {
+                    foreach (var id in videoIds)
+                    {
+                        if (reader.GetAttribute("id") == id)
+                        {
+                            string uniekenaam;
+                            string displayname;
+                            string videosource;
+                            var inner = reader.ReadSubtree();
+                            inner.ReadToFollowing("videoname");
+                            uniekenaam = inner.ReadString();
+                            inner.ReadToFollowing("title");
+                            displayname = inner.ReadString();
+                            inner.ReadToFollowing("source");
+                            videosource = inner.ReadString();
+                            VideoInfo video = new VideoInfo { UniekeNaam = uniekenaam, DisplayName = displayname, VideoSource = VideoSource.FromUri(videosource) };
+                            InMemoryVideos.Add(video);
+                        }
+                    }
+                }
+            }
+            return InMemoryVideos;
+        }
+
+        public async Task<Stap> CreateStap(string stap, string instrument)
+        {
+            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml");
+            List<string> videoIds = new List<string>();
+            while (await reader.ReadAsync() && videoIds.Count == 0)
+            {
+                reader.ReadToFollowing("instrument");
+                if (reader.GetAttribute("name").Contains(instrument))
+                {
+                    var inner = reader.ReadSubtree();
+                    while (await inner.ReadAsync())
+                    {
+                        if (inner.MoveToContent() == XmlNodeType.Element && inner.Name == "step" && inner.GetAttribute("number") == stap.Replace("Stap ", ""))
+                        {
+                            inner.ReadToFollowing("videoid");
+                            do
+                            {
+                                string videoId = reader.ReadString();
+                                videoIds.Add(videoId);
+                            } while (inner.ReadToNextSibling("videoid"));
+                        }
+                    }
+                }
+            }
+            Videos = new List<VideoInfo>(await GetVideos(videoIds));
+            Stap InMemoryStap;
+            ObservableCollection<VideoInfo> StapVideos = new ObservableCollection<VideoInfo>();
+            foreach (VideoInfo video in Videos)
+            {
+                StapVideos.Add(video);
+            }
+            InMemoryStap = new Stap { Nummer = Convert.ToInt32(stap.Replace("Stap ", "")), VideoLijst = StapVideos };
+            return InMemoryStap;
         }
 
         private void RaisePropertyChanged(string propertyName)
