@@ -17,8 +17,9 @@ namespace StringFunApp.Views
 		public MainView ()
 		{
 			InitializeComponent ();
-            var knoppenVerzameling = KnoppenVerzameling;
-            BindingContext = new MainViewModel(this.Navigation, knoppenVerzameling);
+            var instrumentKnoppen = InstrumentKnoppen;
+            var boekKnoppen = BoekKnoppen;
+            BindingContext = new MainViewModel(Navigation, instrumentKnoppen, boekKnoppen);
 		}
 	}
 }

@@ -65,6 +65,35 @@ namespace StringFunApp.ClassLibrary.Models
             return boeken;
         }
 
+        public Boek GetBook(int boeknummer)
+        {
+            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfuninit.xml");
+            Boek boek = new Boek();
+            while (reader.ReadToFollowing("book"))
+            {
+                if (reader.GetAttribute("id") == boeknummer.ToString())
+                {
+                    int nummer;
+                    string kleur;
+                    int firststap;
+                    int laststap;
+                    reader.ReadToDescendant("number");
+                    nummer = Convert.ToInt32(reader.ReadString());
+                    reader.ReadToNextSibling("color");
+                    kleur = reader.ReadString();
+                    reader.ReadToFollowing("first");
+                    firststap = Convert.ToInt32(reader.ReadString());
+                    reader.ReadToNextSibling("last");
+                    laststap = Convert.ToInt32(reader.ReadString());
+                    boek.Nummer = nummer;
+                    boek.Kleur = kleur;
+                    boek.FirstStep = firststap;
+                    boek.LastStep = laststap;
+                }
+            }
+            return boek;
+        }
+
         public async Task<IEnumerable<VideoInfo>> GetVideos(List<string> videoIds)
         {
             reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
@@ -95,6 +124,17 @@ namespace StringFunApp.ClassLibrary.Models
                 }
             }
             return InMemoryVideos;
+        }
+
+        public ObservableCollection<string> GetStappen(int boeknummer)
+        {
+            ObservableCollection<string> StappenLijst = new ObservableCollection<string>();
+            var boek = GetBook(boeknummer);
+            for (int i = boek.FirstStep; i <= boek.LastStep; i++)
+            {
+                StappenLijst.Add("Stap " + i);
+            }
+            return StappenLijst;
         }
 
         public async Task<Stap> CreateStap(string stap, string instrument)

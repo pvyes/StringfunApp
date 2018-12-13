@@ -11,11 +11,19 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel(INavigation navigation, FlexLayout knoppenVerzameling)
+        public MainViewModel(INavigation navigation, FlexLayout instrumentKnoppen, FlexLayout boekKnoppen)
         {
             this.navigation = navigation;
-            knoppen = knoppenVerzameling;
-            InitializeButtons();
+            InstrumentKnoppen = instrumentKnoppen;
+            BoekKnoppen = boekKnoppen;
+            try
+            {
+                InitializeButtons();
+            }
+            catch (Exception exception)
+            {
+                this.navigation.PushModalAsync(new ErrorView(exception));
+            }
             VioolKnopKleur = "Default";
             AltvioolKnopKleur = "Default";
             CelloKnopKleur = "Default";
@@ -25,12 +33,20 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private INavigation navigation;
 
-        private FlexLayout knoppen;
-        public FlexLayout Knoppen
+        private FlexLayout instrumentknoppen;
+        public FlexLayout InstrumentKnoppen
         {
-            get { return knoppen; }
-            set { knoppen = value; RaisePropertyChanged(nameof(Knoppen)); }
+            get { return instrumentknoppen; }
+            set { instrumentknoppen = value; RaisePropertyChanged(nameof(InstrumentKnoppen)); }
         }
+
+        private FlexLayout boekknoppen;
+        public FlexLayout BoekKnoppen
+        {
+            get { return boekknoppen; }
+            set { boekknoppen = value; RaisePropertyChanged(nameof(BoekKnoppen)); }
+        }
+
 
         private bool enabled;
         public bool Enabled
@@ -91,7 +107,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     VioolKnopKleur = "Yellow";
                     AltvioolKnopKleur = "Default";
                     CelloKnopKleur = "Default";
-                        break;
+                    break;
 
                 case "Altviool":
                     VioolKnopKleur = "Default";
@@ -110,24 +126,24 @@ namespace StringFunApp.ClassLibrary.ViewModels
             }
         }
 
-        public void InitializeButtons()
+        private void InitializeButtons()
         {
             Stringfun stringfun = new Stringfun();
             var instruments = stringfun.GetInstruments();
             var boeken = stringfun.GetBooks();
             foreach (var instrument in instruments)
             {
-                var instrumentKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = instrument.Naam, Text = instrument.Naam };
+                var instrumentKnop = new Button { HeightRequest = 60, WidthRequest = 70, CommandParameter = instrument.Naam, Text = instrument.Naam };
                 instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
                 instrumentKnop.SetBinding(Button.BackgroundColorProperty, new Binding(instrument.Naam + "KnopKleur"));
-                knoppen.Children.Add(instrumentKnop);
+                InstrumentKnoppen.Children.Add(instrumentKnop);
             }
             foreach (var boek in boeken)
             {
-                var boekKnop = new Button { HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.CenterAndExpand, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
+                var boekKnop = new Button { HeightRequest = 60, WidthRequest = 70, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
                 boekKnop.SetBinding(Button.CommandProperty, new Binding("KiesBoek"));
                 boekKnop.SetBinding(Button.IsEnabledProperty, new Binding("Enabled"));
-                knoppen.Children.Add(boekKnop);
+                BoekKnoppen.Children.Add(boekKnop);
             }
         }
 

@@ -3,14 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StringFunApp.Views.MainView">
     <ContentPage.Content>
-        <FlexLayout x:Name="KnoppenVerzameling" >
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-            </Grid.RowDefinitions>-->
-            <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
-
-        </FlexLayout>
+        <StackLayout>
+            <FlexLayout JustifyContent="Center" BackgroundColor="Orange">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
+            <FlexLayout x:Name="InstrumentKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+            <FlexLayout x:Name="BoekKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

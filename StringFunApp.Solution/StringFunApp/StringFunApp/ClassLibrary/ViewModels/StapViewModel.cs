@@ -12,15 +12,18 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class StapViewModel : INotifyPropertyChanged
     {
-        public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument)
+        public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument, FlexLayout buttons)
         {
             this.navigation = navigation;
             Stringfun = new Stringfun();
+            Knoppen = buttons;
             BoekNummer = boeknummer;
             TypeInstrument = typeinstrument;
-            GetStappen(BoekNummer);
+            StappenLijst = Stringfun.GetStappen(BoekNummer);
+            InitializeButtons();
         }
 
+        #region properties
         private int boeknummer;
         public int BoekNummer
         {
@@ -49,44 +52,24 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { selectedstap = value; RaisePropertyChanged(nameof(SelectedStap)); }
         }
 
+        private FlexLayout knoppen;
+        public FlexLayout Knoppen
+        {
+            get { return knoppen; }
+            set { knoppen = value; RaisePropertyChanged(nameof(Knoppen)); }
+        }
+
         private INavigation navigation;
 
         private Stringfun Stringfun;
+        #endregion
 
-        public ObservableCollection<string> GetStappen(int boeknummer)
-        {
-            StappenLijst = new ObservableCollection<string>();
-            switch (boeknummer)
-            {
-                case 1:
-                    for (int i = 1; i < 25; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-
-                case 2:
-                    for (int i = 25; i < 57; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-
-                case 3:
-                    for (int i = 57; i < 79; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-            }
-            return StappenLijst;
-        }
-
-        public ICommand ViewStap => new Command(
-            async () =>
+        public ICommand ViewStap => new Command<string>(
+            async (string selectedstap) =>
             {
                 try
                 {
+                    SelectedStap = selectedstap;
                     var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
                     await navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
@@ -95,6 +78,16 @@ namespace StringFunApp.ClassLibrary.ViewModels
                 }
             }
             );
+
+        private void InitializeButtons()
+        {
+            foreach (var stap in StappenLijst)
+            {
+                var stapKnop = new Button { CommandParameter = stap, Text = stap, WidthRequest = 70, HeightRequest = 60 };
+                stapKnop.SetBinding(Button.CommandProperty, new Binding("ViewStap"));
+                Knoppen.Children.Add(stapKnop);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

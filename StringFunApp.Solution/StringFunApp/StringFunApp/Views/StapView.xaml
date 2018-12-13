@@ -5,19 +5,12 @@
              x:Class="StringFunApp.Views.StapView">
     <ContentPage.Content>
         <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="200" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
-                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
-                <Label Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
-            </Grid>
-            <Picker x:Name="Stappen" ItemsSource="{Binding StappenLijst}" SelectedItem="{Binding SelectedStap}">
-                <Picker.Behaviors>
-                    <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ViewStap}"></bhv:EventToCommandBehavior>
-                </Picker.Behaviors>
-            </Picker>
+            <FlexLayout>
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+                <Label HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
+                <Label HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
+            </FlexLayout>
+            <FlexLayout x:Name="Buttons" Wrap="Wrap"></FlexLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
