@@ -18,6 +18,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
             Stringfun = new Stringfun();
             Knoppen = buttons;
             BoekNummer = boeknummer;
+            BoekNaam = "Boek " + boeknummer;
             TypeInstrument = typeinstrument;
             StappenLijst = Stringfun.GetStappen(BoekNummer);
             InitializeButtons();
@@ -30,6 +31,14 @@ namespace StringFunApp.ClassLibrary.ViewModels
             get { return boeknummer; }
             set { boeknummer = value; RaisePropertyChanged(nameof(BoekNummer)); }
         }
+
+        private string boeknaam;
+        public string BoekNaam
+        {
+            get { return boeknaam; }
+            set { boeknaam = value; RaisePropertyChanged(nameof(BoekNaam)); }
+        }
+
 
         private string typeinstrument;
         public string TypeInstrument

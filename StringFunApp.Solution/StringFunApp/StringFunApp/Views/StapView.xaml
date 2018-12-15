@@ -6,9 +6,13 @@
     <ContentPage.Content>
         <StackLayout>
             <FlexLayout>
-                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+                <Image BackgroundColor="Orange" Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
+            <FlexLayout>
                 <Label HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
-                <Label HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
+            </FlexLayout>
+            <FlexLayout>
+                <Label HorizontalOptions="Center" Text="{Binding BoekNaam}"></Label>
             </FlexLayout>
             <FlexLayout x:Name="Buttons" Wrap="Wrap"></FlexLayout>
         </StackLayout>
