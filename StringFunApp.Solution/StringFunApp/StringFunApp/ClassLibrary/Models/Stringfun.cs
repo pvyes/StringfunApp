@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -11,6 +10,10 @@ namespace StringFunApp.ClassLibrary.Models
 {
     public class Stringfun : INotifyPropertyChanged
     {
+        public const string INIT_URI = "https://www.staproeselare.be/stringfun/xml/stringfuninit.xml";
+        public const string VIDEOS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml";
+        public const string STEPS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml";
+
         public event PropertyChangedEventHandler PropertyChanged;
         private XmlReader reader;
 
@@ -23,7 +26,7 @@ namespace StringFunApp.ClassLibrary.Models
 
         public IEnumerable<Instrument> GetInstruments()
         {
-            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfuninit.xml");
+            reader = XmlImporter.getReader(INIT_URI);
             List<Instrument> instruments = new List<Instrument>();
             reader.ReadToFollowing("instrument");
             do
@@ -42,7 +45,7 @@ namespace StringFunApp.ClassLibrary.Models
 
         public IEnumerable<Boek> GetBooks()
         {
-            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfuninit.xml");
+            reader = XmlImporter.getReader(INIT_URI);
             List<Boek> boeken = new List<Boek>();
             reader.ReadToFollowing("book");
             do
@@ -67,7 +70,7 @@ namespace StringFunApp.ClassLibrary.Models
 
         public Boek GetBook(int boeknummer)
         {
-            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfuninit.xml");
+            reader = XmlImporter.getReader(INIT_URI);
             Boek boek = new Boek();
             while (reader.ReadToFollowing("book"))
             {
@@ -96,9 +99,9 @@ namespace StringFunApp.ClassLibrary.Models
 
         public async Task<IEnumerable<VideoInfo>> GetVideos(List<string> videoIds)
         {
-            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml");
+            reader = XmlImporter.getReader(VIDEOS_URI);
             List<VideoInfo> InMemoryVideos = new List<VideoInfo>();
-            while (await reader.ReadAsync())
+            while (await reader.ReadAsync() && videoIds.Count != InMemoryVideos.Count)
             {
                 reader.ReadToFollowing("video");
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "video")
@@ -139,7 +142,7 @@ namespace StringFunApp.ClassLibrary.Models
 
         public async Task<Stap> CreateStap(string stap, string instrument)
         {
-            reader = XmlImporter.getReader("https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml");
+            reader = XmlImporter.getReader(STEPS_URI);
             List<string> videoIds = new List<string>();
             while (await reader.ReadAsync() && videoIds.Count == 0)
             {
@@ -147,10 +150,12 @@ namespace StringFunApp.ClassLibrary.Models
                 if (reader.GetAttribute("name").Contains(instrument))
                 {
                     var inner = reader.ReadSubtree();
-                    while (await inner.ReadAsync())
+                    bool found = false;
+                    while (await inner.ReadAsync() && !found)
                     {
                         if (inner.MoveToContent() == XmlNodeType.Element && inner.Name == "step" && inner.GetAttribute("number") == stap.Replace("Stap ", ""))
                         {
+                            found = true;
                             inner.ReadToFollowing("videoid");
                             do
                             {

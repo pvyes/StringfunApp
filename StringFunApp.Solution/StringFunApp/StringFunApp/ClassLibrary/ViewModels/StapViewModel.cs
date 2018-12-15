@@ -73,8 +73,10 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
                     await navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    string message = e.GetType().ToString() + ". " + e.Message;
+                    Console.Write("WARNING: {0}", message);
                 }
             }
             );
