@@ -20,8 +20,16 @@ namespace StringFunApp.ClassLibrary.ViewModels
             BoekNummer = boeknummer;
             BoekNaam = "Boek " + boeknummer;
             TypeInstrument = typeinstrument;
-            StappenLijst = Stringfun.GetStappen(BoekNummer);
-            InitializeButtons();
+            try
+            {
+                StappenLijst = Stringfun.GetStappen(BoekNummer);
+                InitializeButtons();
+            }
+            catch (Exception exception)
+            {
+                this.navigation.PushModalAsync(new ErrorView(exception));
+            }
+            MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = Stringfun.GetStappen(BoekNummer); InitializeButtons(); });
         }
 
         #region properties

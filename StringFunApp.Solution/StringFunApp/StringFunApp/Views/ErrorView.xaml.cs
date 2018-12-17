@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.Connectivity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,14 @@ using Xamarin.Forms.Xaml;
 
 namespace StringFunApp.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ErrorView : ContentPage
-	{
-		public ErrorView (Exception exception)
-		{
-			InitializeComponent ();
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ErrorView : ContentPage
+    {
+        public ErrorView(Exception exception)
+        {
+            InitializeComponent();
             Error(exception);
-		}
+        }
 
         private void Error(Exception exception)
         {
@@ -32,12 +33,10 @@ namespace StringFunApp.Views
 
         private void BtnRetry_Clicked(object sender, EventArgs e)
         {
-            try
+            if (CrossConnectivity.Current.IsConnected)
             {
+                MessagingCenter.Send(this, "Retry");
                 Navigation.PopModalAsync();
-            }
-            catch (Exception)
-            {
             }
         }
     }

@@ -27,6 +27,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
             VioolKnopKleur = "Default";
             AltvioolKnopKleur = "Default";
             CelloKnopKleur = "Default";
+            MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { InitializeButtons(); });
         }
 
         #region properties
