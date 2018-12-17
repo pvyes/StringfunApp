@@ -101,7 +101,7 @@ namespace StringFunApp.ClassLibrary.Models
         {
             reader = XmlImporter.getReader(VIDEOS_URI);
             List<VideoInfo> InMemoryVideos = new List<VideoInfo>();
-            while (await reader.ReadAsync() && videoIds.Count != InMemoryVideos.Count)
+            while (videoIds.Count != InMemoryVideos.Count && await reader.ReadAsync())
             {
                 reader.ReadToFollowing("video");
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "video")

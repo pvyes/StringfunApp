@@ -11,9 +11,9 @@
             <RowDefinition Height="180" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <FlexLayout Grid.Row="0" AlignContent="Center">
-            <Image BackgroundColor="Orange" Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+
+        <FlexLayout Grid.Row="0" AlignContent="Center" BackgroundColor="Orange">
+            <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
         </FlexLayout>
         
         <FlexLayout Grid.Row="1">

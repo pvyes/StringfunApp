@@ -5,8 +5,8 @@
              x:Class="StringFunApp.Views.StapView">
     <ContentPage.Content>
         <StackLayout>
-            <FlexLayout>
-                <Image BackgroundColor="Orange" Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            <FlexLayout JustifyContent="Center" BackgroundColor="Orange">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
             </FlexLayout>
             <FlexLayout>
                 <Label HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>

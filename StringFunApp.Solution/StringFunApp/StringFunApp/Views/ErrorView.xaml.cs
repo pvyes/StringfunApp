@@ -34,7 +34,7 @@ namespace StringFunApp.Views
         {
             try
             {
-                Navigation.PushAsync(new MainView());
+                Navigation.PopModalAsync();
             }
             catch (Exception)
             {

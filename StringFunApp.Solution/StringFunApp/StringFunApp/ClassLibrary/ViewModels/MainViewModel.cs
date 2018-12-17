@@ -133,14 +133,14 @@ namespace StringFunApp.ClassLibrary.ViewModels
             var boeken = stringfun.GetBooks();
             foreach (var instrument in instruments)
             {
-                var instrumentKnop = new Button { HeightRequest = 60, WidthRequest = 70, CommandParameter = instrument.Naam, Text = instrument.Naam };
+                var instrumentKnop = new Button { HeightRequest = 60, CommandParameter = instrument.Naam, Text = instrument.Naam };
                 instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
                 instrumentKnop.SetBinding(Button.BackgroundColorProperty, new Binding(instrument.Naam + "KnopKleur"));
                 InstrumentKnoppen.Children.Add(instrumentKnop);
             }
             foreach (var boek in boeken)
             {
-                var boekKnop = new Button { HeightRequest = 60, WidthRequest = 70, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
+                var boekKnop = new Button { HeightRequest = 60, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
                 boekKnop.SetBinding(Button.CommandProperty, new Binding("KiesBoek"));
                 boekKnop.SetBinding(Button.IsEnabledProperty, new Binding("Enabled"));
                 BoekKnoppen.Children.Add(boekKnop);
