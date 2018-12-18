@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
@@ -10,13 +11,7 @@ namespace StringFunApp.ClassLibrary
 {
     class XmlImporter
     {
-        private static XmlDocument xmlfile;
         private static bool validated = true;
-
-        public XmlImporter()
-        {
-            xmlfile = new XmlDocument();
-        }
 
         public static XmlReader getReader(string uri)
         {
@@ -37,7 +32,9 @@ namespace StringFunApp.ClassLibrary
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
             // Create the XmlReader object.
-            return XmlReader.Create(uri, settings);
+            var client = new HttpClient();
+            var stream = client.GetStreamAsync(uri).Result;
+            return XmlReader.Create(stream, settings);
         }
 
         // Display any warnings or errors.
