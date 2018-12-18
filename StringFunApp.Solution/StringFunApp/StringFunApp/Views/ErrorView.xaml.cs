@@ -39,5 +39,10 @@ namespace StringFunApp.Views
                 Navigation.PopModalAsync();
             }
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
     }
 }

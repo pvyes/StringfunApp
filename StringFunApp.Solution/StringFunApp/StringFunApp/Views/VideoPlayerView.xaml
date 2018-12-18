@@ -3,40 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:video="clr-namespace:FormsVideoLibrary"
              x:Class="StringFunApp.Views.VideoPlayerView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="20" />
-            <RowDefinition Height="180" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+            <FlexLayout Grid.Row="0" AlignContent="Center" BackgroundColor="Orange">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
 
-        <FlexLayout Grid.Row="0" AlignContent="Center" BackgroundColor="Orange">
-            <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
-        </FlexLayout>
-        
-        <FlexLayout Grid.Row="1">
+            <!--<FlexLayout Grid.Row="1">
             <Label Text="Kies een video"></Label>
-        </FlexLayout>
+        </FlexLayout>-->
 
-        <FlexLayout Wrap="Wrap" Grid.Row="2">
-            <ListView x:Name="StapVideos" ItemsSource="{Binding Videos}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Frame BorderColor="Orange">
-                                    <Label Text="{Binding DisplayName}"></Label>
-                                </Frame>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </FlexLayout>
+            <FlexLayout Wrap="Wrap" Grid.Row="1">
+                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}"></Picker>
+            </FlexLayout>
 
-        <video:VideoPlayer Grid.Row="3" x:Name="videoPlayer" Source="{Binding Source={x:Reference StapVideos}, Path=SelectedItem.VideoSource}"></video:VideoPlayer>
+            <video:VideoPlayer Grid.Row="2" x:Name="videoPlayer" Source="{Binding Source={x:Reference StapVideos}, Path=SelectedItem.VideoSource}"></video:VideoPlayer>
 
-    </Grid>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

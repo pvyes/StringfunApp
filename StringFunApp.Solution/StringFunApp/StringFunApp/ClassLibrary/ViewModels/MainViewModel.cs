@@ -22,12 +22,12 @@ namespace StringFunApp.ClassLibrary.ViewModels
             }
             catch (Exception exception)
             {
+                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { InitializeButtons(); });
                 this.navigation.PushModalAsync(new ErrorView(exception));
             }
             VioolKnopKleur = "Default";
             AltvioolKnopKleur = "Default";
             CelloKnopKleur = "Default";
-            MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { InitializeButtons(); });
         }
 
         #region properties
@@ -98,6 +98,10 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
         public ICommand KiesBoek => new Command<int>(
             (int num) => { BoekNummer = num; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
+            );
+
+        public ICommand ViewContact => new Command(
+            () => { navigation.PushAsync(new ContactView()); }
             );
 
         public void SelectedInstrument(string type)

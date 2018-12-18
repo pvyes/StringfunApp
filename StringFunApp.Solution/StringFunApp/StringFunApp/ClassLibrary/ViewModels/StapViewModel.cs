@@ -27,9 +27,9 @@ namespace StringFunApp.ClassLibrary.ViewModels
             }
             catch (Exception exception)
             {
+                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = Stringfun.GetStappen(BoekNummer); InitializeButtons(); });
                 this.navigation.PushModalAsync(new ErrorView(exception));
             }
-            MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = Stringfun.GetStappen(BoekNummer); InitializeButtons(); });
         }
 
         #region properties
@@ -96,6 +96,10 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     Console.Write("WARNING: {0}", message);
                 }
             }
+            );
+
+        public ICommand ViewContact => new Command(
+            () => { navigation.PushAsync(new ContactView()); }
             );
 
         private void InitializeButtons()

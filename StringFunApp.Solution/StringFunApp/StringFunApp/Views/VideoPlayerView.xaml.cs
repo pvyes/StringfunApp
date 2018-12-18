@@ -17,7 +17,7 @@ namespace StringFunApp.Views
         public VideoPlayerView(Stap stap)
         {
             InitializeComponent();
-            BindingContext = new VideoPlayerViewModel(stap);
+            BindingContext = new VideoPlayerViewModel(stap, Navigation);
         }
     }
 }
