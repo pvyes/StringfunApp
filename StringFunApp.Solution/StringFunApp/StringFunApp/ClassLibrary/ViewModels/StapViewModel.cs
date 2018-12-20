@@ -47,11 +47,11 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { boeknaam = value; RaisePropertyChanged(nameof(BoekNaam)); }
         }
 
-        private bool visible;
-        public bool Visible
+        private bool isloading;
+        public bool IsLoading
         {
-            get { return visible; }
-            set { visible = value; RaisePropertyChanged(nameof(Visible)); }
+            get { return isloading; }
+            set { isloading = value; RaisePropertyChanged(nameof(IsLoading)); }
         }
 
 
@@ -91,7 +91,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public ICommand ViewStap => new Command<string>(
             async (string selectedstap) =>
             {
-                Visible = true;
+                IsLoading = true;
                 try
                 {
                     SelectedStap = selectedstap;
@@ -103,7 +103,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     string message = e.GetType().ToString() + ". " + e.Message;
                     Console.Write("WARNING: {0}", message);
                 }
-                Visible = false;
+                IsLoading = false;
             }
             );
 

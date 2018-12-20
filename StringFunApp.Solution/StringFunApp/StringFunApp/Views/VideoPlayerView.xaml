@@ -10,17 +10,13 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <FlexLayout Grid.Row="0" AlignContent="Center" BackgroundColor="Orange">
+            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="Orange">
                 <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
             </FlexLayout>
-
-            <!--<FlexLayout Grid.Row="1">
-            <Label Text="Kies een video"></Label>
-        </FlexLayout>-->
 
             <FlexLayout Wrap="Wrap" Grid.Row="1">
                 <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}"></Picker>

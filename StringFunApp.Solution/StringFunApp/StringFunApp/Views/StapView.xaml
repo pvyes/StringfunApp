@@ -20,8 +20,8 @@
                     <FlexLayout x:Name="Buttons" Wrap="Wrap"></FlexLayout>
                 </StackLayout>
             </ScrollView>
-            <StackLayout x:Name="busyIndicator" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding Visible}" BackgroundColor="White">
-                <ActivityIndicator IsRunning="True" Color="Black" 
+            <StackLayout x:Name="busyIndicator" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding IsLoading}" BackgroundColor="White">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" Color="Black" 
                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                     <ActivityIndicator.WidthRequest>
                         <OnPlatform x:TypeArguments="x:Double">
