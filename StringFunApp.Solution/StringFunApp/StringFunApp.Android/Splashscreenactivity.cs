@@ -13,10 +13,10 @@ using Android.Widget;
 
 namespace StringFunApp.Droid
 {
-    [Activity(Label = "Splashscreenactivity", Icon = "@drawable/iconm",
+    [Activity(Label = "Stringfun", Icon = "@drawable/iconm",
               Theme = "@style/MainTheme.Splash", MainLauncher = true,
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class Splashscreenactivity : Activity
+    public class Splashscreenactivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

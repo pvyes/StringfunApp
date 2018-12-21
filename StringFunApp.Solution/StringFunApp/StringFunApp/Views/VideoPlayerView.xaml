@@ -20,7 +20,7 @@
             </FlexLayout>
 
             <FlexLayout Wrap="Wrap" Grid.Row="1">
-                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}">
+                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}" HorizontalOptions="CenterAndExpand" WidthRequest="600">
                     <Picker.Behaviors>
                         <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ShowVideoPlayer}"></bhv:EventToCommandBehavior>
                     </Picker.Behaviors>

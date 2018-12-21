@@ -9,6 +9,10 @@
 
             <conv:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConv"></conv:ItemTappedEventArgsConverter>
 
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#2287b1"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
