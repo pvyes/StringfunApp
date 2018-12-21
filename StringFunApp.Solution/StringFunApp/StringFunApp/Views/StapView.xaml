@@ -10,7 +10,7 @@
         <AbsoluteLayout>
             <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
                 <StackLayout>
-                    <FlexLayout JustifyContent="Center" BackgroundColor="Orange">
+                    <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
                         <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
                     </FlexLayout>
                     <FlexLayout JustifyContent="Center">

@@ -7,7 +7,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <FlexLayout JustifyContent="Center" BackgroundColor="Orange">
+            <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
                 <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
             </FlexLayout>
             <FlexLayout x:Name="InstrumentKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>

@@ -22,14 +22,27 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { videos = value; RaisePropertyChanged(nameof(Videos)); }
         }
 
+        private bool visible;
+        public bool Visible
+        {
+            get { return visible; }
+            set { visible = value; RaisePropertyChanged(nameof(Visible)); }
+        }
+
+
         public VideoPlayerViewModel(Stap stap, INavigation navigation)
         {
             Videos = stap.VideoLijst;
+            Visible = false;
             this.navigation = navigation;
         }
 
         public ICommand ViewContact => new Command(
             () => { navigation.PushAsync(new ContactView()); }
+            );
+
+        public ICommand ShowVideoPlayer => new Command(
+            () => { Visible = true; }
             );
 
         private void RaisePropertyChanged(string propertyName)

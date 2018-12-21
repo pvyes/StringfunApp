@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
              x:Class="StringFunApp.Views.VideoPlayerView">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
@@ -14,15 +15,19 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="Orange">
+            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="#2287b1">
                 <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
             </FlexLayout>
 
             <FlexLayout Wrap="Wrap" Grid.Row="1">
-                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}"></Picker>
+                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}">
+                    <Picker.Behaviors>
+                        <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ShowVideoPlayer}"></bhv:EventToCommandBehavior>
+                    </Picker.Behaviors>
+                </Picker>
             </FlexLayout>
 
-            <video:VideoPlayer Grid.Row="2" x:Name="videoPlayer" Source="{Binding Source={x:Reference StapVideos}, Path=SelectedItem.VideoSource}"></video:VideoPlayer>
+            <video:VideoPlayer IsVisible="{Binding Visible}" Grid.Row="2" x:Name="videoPlayer" Source="{Binding Source={x:Reference StapVideos}, Path=SelectedItem.VideoSource}"></video:VideoPlayer>
 
         </Grid>
     </ContentPage.Content>
