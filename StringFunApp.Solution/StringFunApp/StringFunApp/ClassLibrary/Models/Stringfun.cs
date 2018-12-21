@@ -14,6 +14,8 @@ namespace StringFunApp.ClassLibrary.Models
         public const string INIT_URI = "https://www.staproeselare.be/stringfun/xml/stringfuninit.xml";
         public const string VIDEOS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml";
         public const string STEPS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml";
+        public const string STEPS_URI_UNVALIDATED = "https://www.staproeselare.be/stringfun/xml/stringfunstepsUnvalidated.xml";
+        public const string VIDEOS_URI_UNVALIDATED = "https://www.staproeselare.be/stringfun/xml/stringfunvideosUnvalidated.xml";
 
         public event PropertyChangedEventHandler PropertyChanged;
         private XmlReader reader;
@@ -91,10 +93,10 @@ namespace StringFunApp.ClassLibrary.Models
             return null;
         }
 
-        public List<VideoInfo> GetVideos(List<string> videoIds)
+        public async Task<List<VideoInfo>> GetVideos(List<string> videoIds)
         {
             VideoReader videoreader = new VideoReader();
-            List<VideoInfo> InMemoryVideos = videoreader.ReadListOfObjects(VIDEOS_URI, videoIds);
+            List<VideoInfo> InMemoryVideos = await videoreader.ReadListOfObjects(VIDEOS_URI_UNVALIDATED, videoIds);
             return InMemoryVideos;
         }
 
@@ -114,8 +116,8 @@ namespace StringFunApp.ClassLibrary.Models
             StapReader reader = new StapReader();
             String stapId = stap.Replace("Stap ", "");
             Instrument instrument = GetInstrument(instrumentname);
-            List<string> videoIds = reader.ReadVideoIdsByStapId(STEPS_URI, instrument, stapId);
-            List<VideoInfo> videoInfosList = GetVideos(videoIds);
+            List<string> videoIds = await reader.ReadVideoIdsByStapIdAsync(STEPS_URI_UNVALIDATED, instrument, stapId);
+            List<VideoInfo> videoInfosList = await GetVideos(videoIds);
             ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
             foreach (VideoInfo vi in videoInfosList)
             {

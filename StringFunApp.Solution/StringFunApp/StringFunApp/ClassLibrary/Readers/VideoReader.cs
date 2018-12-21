@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using FormsVideoLibrary;
 using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class VideoReader : Reader<VideoInfo>
+    public class VideoReader
     {
-        public List<VideoInfo> ReadAllObjects(string uri)
+        public async Task<List<VideoInfo>> ReadAllObjects(string uri)
         {
-            XmlReader reader = XmlImporter.getReader(uri);
+            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
             List<VideoInfo> videos = new List<VideoInfo>();
             reader.ReadToFollowing("video");
             do
@@ -32,9 +33,9 @@ namespace StringFunApp.ClassLibrary.Readers
             return videos;
         }
 
-        public List<VideoInfo> ReadListOfObjects(string uri, List<string> videoIds)
+        public async Task<List<VideoInfo>> ReadListOfObjects(string uri, List<string> videoIds)
         {
-            XmlReader reader = XmlImporter.getReader(uri);
+            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
             List<VideoInfo> videos = new List<VideoInfo>();
             reader.ReadToFollowing("video");
             do

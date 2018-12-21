@@ -73,8 +73,9 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
                     await navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine("WARNING: ICommand Viewstap try-block.\ntype = " + e.GetType() + "\nSource = " + e.Source);
                 }
             }
             );

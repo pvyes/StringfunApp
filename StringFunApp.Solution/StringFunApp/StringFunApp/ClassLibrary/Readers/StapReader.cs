@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using StringFunApp.ClassLibrary.Models;
 
@@ -13,10 +14,9 @@ namespace StringFunApp.ClassLibrary.Readers
             throw new NotImplementedException();
         }
 
-        public List<string> ReadVideoIdsByStapId(string uri, Instrument instrument, string id)
+        public async Task<List<string>> ReadVideoIdsByStapIdAsync(string uri, Instrument instrument, string id)
         {
-            XmlReader reader = XmlImporter.getReader(uri);
-            reader = XmlImporter.getReader(uri);
+            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
             reader.ReadToFollowing("instrument");
             do
             {
@@ -24,13 +24,13 @@ namespace StringFunApp.ClassLibrary.Readers
                 if (instrumentname.Contains(instrument.Naam))
                 {
                     var inner = reader.ReadSubtree();
-                    return readStapVideoIds(inner, id);
+                    return ReadStapVideoIds(inner, id);
                 }
             } while (reader.ReadToFollowing("instrument"));
             return null;
         }
 
-        private List<string> readStapVideoIds(XmlReader reader, string id)
+        private List<string> ReadStapVideoIds(XmlReader reader, string id)
         {
             reader.ReadToFollowing("step");
             do
@@ -39,13 +39,14 @@ namespace StringFunApp.ClassLibrary.Readers
                 if (stepnumber.Equals(id))
                 {
                     var inner = reader.ReadSubtree();
-                    return readVideoIds(inner);
+                    List<string> videoIds = ReadVideoIds(inner);
+                    return videoIds;
                 }
             } while (reader.ReadToFollowing("step"));
             return null;
         }
 
-        private List<string> readVideoIds(XmlReader reader)
+        private List<string> ReadVideoIds(XmlReader reader)
         {
             List<string> videoIds = new List<string>();
             reader.ReadToFollowing("videoid");

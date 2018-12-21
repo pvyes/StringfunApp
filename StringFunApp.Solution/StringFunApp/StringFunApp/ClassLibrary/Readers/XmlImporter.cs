@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -16,10 +17,28 @@ namespace StringFunApp.ClassLibrary
         public static XmlReader getReader(string uri)
         {
             //validate xml
-            return validateXml(uri);
+            return ValidateXml(uri);
         }
 
-        private static XmlReader validateXml(string uri)
+        public async static Task<XmlReader> getUnvalidatedReader(string uri)
+        {
+            //validate xml
+            return await UnvalidateXml(uri);
+        }
+
+        private async static Task<XmlReader> UnvalidateXml(string uri)
+        {
+            // Set the validation settings.
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Async = true;
+
+            // Create the XmlReader object.
+            HttpClient client = new HttpClient();
+            Stream stream = await client.GetStreamAsync(uri);
+            return XmlReader.Create(stream, settings);
+        }
+
+        private static XmlReader ValidateXml(string uri)
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
