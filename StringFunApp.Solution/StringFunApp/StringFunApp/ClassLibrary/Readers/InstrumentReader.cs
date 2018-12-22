@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using StringFunApp.ClassLibrary.Models;
 
@@ -8,9 +9,15 @@ namespace StringFunApp.ClassLibrary.Readers
 {
     public class InstrumentReader : Reader<Instrument>
     {
-        public List<Instrument> ReadAllObjects(string uri)
+         public List<Instrument> ReadAllObjects(string uri)
+            {
+                List<Instrument> instrumentlist = ReadAllObjectsAsync(uri).Result;
+                return instrumentlist;
+            }
+
+    private async Task<List<Instrument>> ReadAllObjectsAsync(string uri)
         {
-            XmlReader reader = XmlImporter.getReader(uri);
+            XmlReader reader = await XmlImporter.getReader(uri);
             List<Instrument> instruments = new List<Instrument>();
             reader.ReadToFollowing("instrument");
             do

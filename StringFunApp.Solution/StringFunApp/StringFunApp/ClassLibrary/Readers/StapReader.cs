@@ -9,7 +9,7 @@ namespace StringFunApp.ClassLibrary.Readers
 {
     public class StapReader : Reader<Stap>
     {
-        public List<Stap> ReadAllObjects(string uri)
+        public Task<List<Stap>> ReadAllObjects(string uri)
         {
             throw new NotImplementedException();
         }
@@ -28,6 +28,11 @@ namespace StringFunApp.ClassLibrary.Readers
                 }
             } while (reader.ReadToFollowing("instrument"));
             return null;
+        }
+
+        List<Stap> Reader<Stap>.ReadAllObjects(string uri)
+        {
+            throw new NotImplementedException();
         }
 
         private List<string> ReadStapVideoIds(XmlReader reader, string id)

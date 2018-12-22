@@ -14,19 +14,19 @@ namespace StringFunApp.ClassLibrary
     {
         private static bool validated = true;
 
-        public static XmlReader getReader(string uri)
+        public async static Task<XmlReader> getReader(string uri)
         {
             //validate xml
-            return ValidateXml(uri);
+            return await SetValidateXml(uri);
         }
 
         public async static Task<XmlReader> getUnvalidatedReader(string uri)
         {
             //validate xml
-            return await UnvalidateXml(uri);
+            return await SetUnvalidateXml(uri);
         }
 
-        private async static Task<XmlReader> UnvalidateXml(string uri)
+        private async static Task<XmlReader> SetUnvalidateXml(string uri)
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -38,7 +38,7 @@ namespace StringFunApp.ClassLibrary
             return XmlReader.Create(stream, settings);
         }
 
-        private static XmlReader ValidateXml(string uri)
+        private async static Task<XmlReader> SetValidateXml(string uri)
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -52,7 +52,7 @@ namespace StringFunApp.ClassLibrary
 
             // Create the XmlReader object.
             var client = new HttpClient();
-            var stream = client.GetStreamAsync(uri).Result;
+            var stream = await client.GetStreamAsync(uri);
             return XmlReader.Create(stream, settings);
         }
 

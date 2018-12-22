@@ -15,7 +15,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument, FlexLayout buttons)
         {
             this.navigation = navigation;
-            Stringfun = new Stringfun();
+            Stringfun = Stringfun.Instance;
             Knoppen = buttons;
             BoekNummer = boeknummer;
             TypeInstrument = typeinstrument;
@@ -70,7 +70,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                 try
                 {
                     SelectedStap = selectedstap;
-                    var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
+                    Stap NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
                     await navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
                 catch (Exception e)

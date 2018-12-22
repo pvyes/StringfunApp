@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace StringFunApp.ClassLibrary.Models
 {
-    public class Stringfun : INotifyPropertyChanged
+    public sealed class Stringfun : INotifyPropertyChanged
     {
         public const string INIT_URI = "https://www.staproeselare.be/stringfun/xml/stringfuninit.xml";
         public const string VIDEOS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml";
@@ -18,24 +18,29 @@ namespace StringFunApp.ClassLibrary.Models
         public const string VIDEOS_URI_UNVALIDATED = "https://www.staproeselare.be/stringfun/xml/stringfunvideosUnvalidated.xml";
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private XmlReader reader;
+        private static readonly Lazy<Stringfun> _instance = new Lazy<Stringfun>(() => new Stringfun());
 
-        public Stringfun()
+        private Stringfun()
         {
-            ReadBooks(INIT_URI);
-            ReadInstruments(INIT_URI);
+            books = ReadBooks(INIT_URI);
+            instruments = ReadInstruments(INIT_URI);
         }
 
-        private void ReadInstruments(string iNIT_URI)
+        public static Stringfun Instance
+        {
+            get { return _instance.Value; }
+        }
+
+        private static List<Instrument> ReadInstruments(string uri)
         {
             InstrumentReader instrReader = new InstrumentReader();
-            instruments = instrReader.ReadAllObjects(INIT_URI);
+            return instrReader.ReadAllObjects(uri);
         }
 
-        private void ReadBooks(string iNIT_URI)
+        private static List<Boek> ReadBooks(string uri)
         {
             BookReader bookReader = new BookReader();
-            books = bookReader.ReadAllObjects(INIT_URI);
+            return bookReader.ReadAllObjects(uri);
         }
 
         private List<VideoInfo> videos;
@@ -59,16 +64,17 @@ namespace StringFunApp.ClassLibrary.Models
             set { books = value; }
         }
 
-        public IEnumerable<Instrument> GetInstruments()
+        /*
+        public static IEnumerable<Instrument> GetInstruments()
         {
             return instruments;
         }
 
-        public IEnumerable<Boek> GetBooks()
+        public static IEnumerable<Boek> GetBooks()
         {
             return books;
         }
-
+        */
         public Boek GetBook(int booknumber)
         {
             for (int i = 0; i < books.Count; i++)
@@ -132,5 +138,9 @@ namespace StringFunApp.ClassLibrary.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    internal class NestedConstructor
+    {
     }
 }
