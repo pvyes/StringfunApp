@@ -97,9 +97,9 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
         private void InitializeButtons()
         {
-            Stringfun stringfun = new Stringfun();
-            var instruments = stringfun.GetInstruments();
-            var boeken = stringfun.GetBooks();
+            Stringfun stringfun = Stringfun.Instance;
+            var instruments = stringfun.Instruments;
+            var boeken = stringfun.Books;
             foreach (var instrument in instruments)
             {
                 var instrumentKnop = new Button { HeightRequest = 60, CommandParameter = instrument.Naam, Text = instrument.Naam };
