@@ -2,20 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StringFunApp.Views.MainView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0">Stringfun</Label>
-            <Button Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Viool" BackgroundColor="{Binding VioolKnopKleur}" Text="Viool"></Button>
-            <Button Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Altviool" BackgroundColor="{Binding AltvioolKnopKleur}" Text="AltViool"></Button>
-            <Button Grid.Row="1" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesInstrument}" CommandParameter="Cello" BackgroundColor="{Binding CelloKnopKleur}" Text="Cello"></Button>
-            <Button Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="1" IsEnabled="{Binding Enabled}" Text="Boek 1"></Button>
-            <Button Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="2" IsEnabled="{Binding Enabled}" Text="Boek 2"></Button>
-            <Button Grid.Row="2" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Command="{Binding KiesBoek}" CommandParameter="3" IsEnabled="{Binding Enabled}" Text="Boek 3"></Button>
-        </Grid>
+        <StackLayout>
+            <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
+            <FlexLayout x:Name="InstrumentKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+            <FlexLayout x:Name="BoekKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

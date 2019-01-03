@@ -3,21 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
              x:Class="StringFunApp.Views.StapView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="200" />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">Stringfun</Label>
-                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" Text="{Binding TypeInstrument}"></Label>
-                <Label Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" Text="{Binding BoekNummer}"></Label>
-            </Grid>
-            <Picker x:Name="Stappen" ItemsSource="{Binding StappenLijst}" SelectedItem="{Binding SelectedStap}">
-                <Picker.Behaviors>
-                    <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ViewStap}"></bhv:EventToCommandBehavior>
-                </Picker.Behaviors>
-            </Picker>
-        </StackLayout>
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <StackLayout>
+                    <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                        <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+                    </FlexLayout>
+                    <FlexLayout JustifyContent="Center">
+                        <Label Margin="10" FontSize="Large" Text="{Binding TypeInstrument}"></Label>
+                        <Label Margin="10" FontSize="Large" Text="{Binding BoekNaam}"></Label>
+                    </FlexLayout>
+                    <FlexLayout x:Name="Buttons" Wrap="Wrap"></FlexLayout>
+                </StackLayout>
+            </ScrollView>
+            <StackLayout x:Name="busyIndicator" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding IsLoading}" BackgroundColor="White">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" Color="Black" 
+                   HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <ActivityIndicator.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS, Android">50</On>
+                            <On Platform="Windows">200</On>
+                        </OnPlatform>
+                    </ActivityIndicator.WidthRequest>
+                </ActivityIndicator>
+            </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

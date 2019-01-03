@@ -1,4 +1,5 @@
-﻿using StringFunApp.Views;
+﻿using StringFunApp.ClassLibrary.Models;
+using StringFunApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,21 +12,48 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class StapViewModel : INotifyPropertyChanged
     {
-        public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument)
+        public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument, FlexLayout buttons)
         {
             this.navigation = navigation;
-            StapFactory = new StapFactory();
+            Stringfun = new Stringfun();
+            Knoppen = buttons;
             BoekNummer = boeknummer;
+            BoekNaam = "Boek " + boeknummer;
             TypeInstrument = typeinstrument;
-            GetStappen(BoekNummer);
+            try
+            {
+                StappenLijst = Stringfun.GetStappen(BoekNummer);
+                InitializeButtons();
+            }
+            catch (Exception exception)
+            {
+                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = Stringfun.GetStappen(BoekNummer); InitializeButtons(); });
+                this.navigation.PushModalAsync(new ErrorView(exception));
+            }
         }
 
+        #region properties
         private int boeknummer;
         public int BoekNummer
         {
             get { return boeknummer; }
             set { boeknummer = value; RaisePropertyChanged(nameof(BoekNummer)); }
         }
+
+        private string boeknaam;
+        public string BoekNaam
+        {
+            get { return boeknaam; }
+            set { boeknaam = value; RaisePropertyChanged(nameof(BoekNaam)); }
+        }
+
+        private bool isloading;
+        public bool IsLoading
+        {
+            get { return isloading; }
+            set { isloading = value; RaisePropertyChanged(nameof(IsLoading)); }
+        }
+
 
         private string typeinstrument;
         public string TypeInstrument
@@ -48,43 +76,50 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { selectedstap = value; RaisePropertyChanged(nameof(SelectedStap)); }
         }
 
-
-        public ObservableCollection<string> GetStappen(int boeknummer)
+        private FlexLayout knoppen;
+        public FlexLayout Knoppen
         {
-            StappenLijst = new ObservableCollection<string>();
-            switch (boeknummer)
-            {
-                case 1:
-                    for (int i = 1; i < 25; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-
-                case 2:
-                    for (int i = 25; i < 57; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-
-                case 3:
-                    for (int i = 57; i < 79; i++)
-                    {
-                        StappenLijst.Add("Stap " + i.ToString());
-                    }
-                    break;
-            }
-            return StappenLijst;
+            get { return knoppen; }
+            set { knoppen = value; RaisePropertyChanged(nameof(Knoppen)); }
         }
-
-        public ICommand ViewStap => new Command(
-            async() => { var NieuweStap = await StapFactory.CreateStap(SelectedStap, TypeInstrument); await navigation.PushAsync(new VideoPlayerView(NieuweStap)); }
-            );
 
         private INavigation navigation;
 
-        private StapFactory StapFactory;
+        private Stringfun Stringfun;
+        #endregion
+
+        public ICommand ViewStap => new Command<string>(
+            async (string selectedstap) =>
+            {
+                IsLoading = true;
+                try
+                {
+                    SelectedStap = selectedstap;
+                    var NieuweStap = await Stringfun.CreateStap(SelectedStap, TypeInstrument);
+                    await navigation.PushAsync(new VideoPlayerView(NieuweStap));
+                }
+                catch (Exception e)
+                {
+                    string message = e.GetType().ToString() + ". " + e.Message;
+                    Console.Write("WARNING: {0}", message);
+                }
+                IsLoading = false;
+            }
+            );
+
+        public ICommand ViewContact => new Command(
+            () => { navigation.PushAsync(new ContactView()); }
+            );
+
+        private void InitializeButtons()
+        {
+            foreach (var stap in StappenLijst)
+            {
+                var stapKnop = new Button { CommandParameter = stap, Text = stap, WidthRequest = 70, HeightRequest = 60 };
+                stapKnop.SetBinding(Button.CommandProperty, new Binding("ViewStap"));
+                Knoppen.Children.Add(stapKnop);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

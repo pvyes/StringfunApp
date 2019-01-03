@@ -1,4 +1,5 @@
-﻿using StringFunApp.ClassLibrary.ViewModels;
+﻿using StringFunApp.ClassLibrary.Models;
+using StringFunApp.ClassLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,9 @@ namespace StringFunApp.Views
 		public MainView ()
 		{
 			InitializeComponent ();
-            BindingContext = new MainViewModel(this.Navigation);
+            var instrumentKnoppen = InstrumentKnoppen;
+            var boekKnoppen = BoekKnoppen;
+            BindingContext = new MainViewModel(Navigation, instrumentKnoppen, boekKnoppen);
 		}
 	}
 }

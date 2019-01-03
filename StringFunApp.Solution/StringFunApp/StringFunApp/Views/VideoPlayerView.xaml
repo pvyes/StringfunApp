@@ -1,33 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:StringFunApp"
              xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
              x:Class="StringFunApp.Views.VideoPlayerView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="60"></RowDefinition>
-        </Grid.RowDefinitions>
+            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="#2287b1">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
 
-        <Label Grid.Row="0">Stringfun</Label>
-        
-        <video:VideoPlayer x:Name="videoPlayer" Grid.Row="1" 
-                           Source="{Binding Source={x:Reference StapVideos},
-                                            Path=SelectedItem.VideoSource}"></video:VideoPlayer>
+            <FlexLayout Wrap="Wrap" Grid.Row="1">
+                <Picker x:Name="StapVideos" Title="Kies een video" ItemsSource="{Binding Videos}" HorizontalOptions="CenterAndExpand" WidthRequest="600">
+                    <Picker.Behaviors>
+                        <bhv:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ShowVideoPlayer}"></bhv:EventToCommandBehavior>
+                    </Picker.Behaviors>
+                </Picker>
+            </FlexLayout>
 
-        <ListView x:Name="StapVideos" Grid.Row="2" ItemsSource="{Binding Videos}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout>
-                            <Label Text="{Binding DisplayName}"></Label>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+            <video:VideoPlayer IsVisible="{Binding Visible}" Grid.Row="2" x:Name="videoPlayer" Source="{Binding Source={x:Reference StapVideos}, Path=SelectedItem.VideoSource}"></video:VideoPlayer>
+
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

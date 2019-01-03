@@ -9,7 +9,6 @@ namespace StringFunApp.ClassLibrary.Models
     {
         public int Nummer { get; set; }
         public string Instrument { get; set; }
-        //public int BoekNummer { get; set; }
         public ObservableCollection<VideoInfo> VideoLijst { get; set; }
     }
 }

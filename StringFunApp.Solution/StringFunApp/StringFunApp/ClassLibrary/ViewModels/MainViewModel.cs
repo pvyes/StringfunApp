@@ -11,17 +11,40 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel(INavigation navigation)
+        public MainViewModel(INavigation navigation, FlexLayout instrumentKnoppen, FlexLayout boekKnoppen)
         {
             this.navigation = navigation;
-            VioolKnopKleur = "Default";
-            AltvioolKnopKleur = "Default";
-            CelloKnopKleur = "Default";
+            InstrumentKnoppen = instrumentKnoppen;
+            BoekKnoppen = boekKnoppen;
+            try
+            {
+                InitializeButtons();
+            }
+            catch (Exception exception)
+            {
+                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { InitializeButtons(); });
+                this.navigation.PushModalAsync(new ErrorView(exception));
+            }
         }
 
         #region properties
         public event PropertyChangedEventHandler PropertyChanged;
         private INavigation navigation;
+
+        private FlexLayout instrumentknoppen;
+        public FlexLayout InstrumentKnoppen
+        {
+            get { return instrumentknoppen; }
+            set { instrumentknoppen = value; RaisePropertyChanged(nameof(InstrumentKnoppen)); }
+        }
+
+        private FlexLayout boekknoppen;
+        public FlexLayout BoekKnoppen
+        {
+            get { return boekknoppen; }
+            set { boekknoppen = value; RaisePropertyChanged(nameof(BoekKnoppen)); }
+        }
+
 
         private bool enabled;
         public bool Enabled
@@ -43,61 +66,52 @@ namespace StringFunApp.ClassLibrary.ViewModels
             get { return typeinstrument; }
             set { typeinstrument = value; RaisePropertyChanged(nameof(TypeInstrument)); }
         }
-
-        private string vioolknopkleur;
-        public string VioolKnopKleur
-        {
-            get { return vioolknopkleur; }
-            set { vioolknopkleur = value; RaisePropertyChanged(nameof(VioolKnopKleur)); }
-        }
-
-        private string altvioolknopkleur;
-        public string AltvioolKnopKleur
-        {
-            get { return altvioolknopkleur; }
-            set { altvioolknopkleur = value; RaisePropertyChanged(nameof(AltvioolKnopKleur)); }
-        }
-
-        private string celloknopkleur;
-        public string CelloKnopKleur
-        {
-            get { return celloknopkleur; }
-            set { celloknopkleur = value; RaisePropertyChanged(nameof(CelloKnopKleur)); }
-        }
         #endregion
 
         public ICommand KiesInstrument => new Command<string>(
             (string instrument) => { TypeInstrument = instrument; SelectedInstrument(TypeInstrument); Enabled = true; }
             );
 
-        public ICommand KiesBoek => new Command<string>(
-            (string num) => { int nummer = Convert.ToInt32(num); BoekNummer = nummer; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
+        public ICommand KiesBoek => new Command<int>(
+            (int num) => { BoekNummer = num; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
+            );
+
+        public ICommand ViewContact => new Command(
+            () => { navigation.PushAsync(new ContactView()); }
             );
 
         public void SelectedInstrument(string type)
         {
-            switch (type)
+            foreach (Button instrumentknop in InstrumentKnoppen.Children)
             {
-                case "Viool":
-                    VioolKnopKleur = "Yellow";
-                    AltvioolKnopKleur = "Default";
-                    CelloKnopKleur = "Default";
-                        break;
+                if (instrumentknop.Text == type)
+                {
+                    instrumentknop.BackgroundColor = Color.Yellow;
+                }
+                else
+                {
+                    instrumentknop.BackgroundColor = Color.Default;
+                }
+            }
+        }
 
-                case "Altviool":
-                    VioolKnopKleur = "Default";
-                    AltvioolKnopKleur = "Yellow";
-                    CelloKnopKleur = "Default";
-                    break;
-
-                case "Cello":
-                    VioolKnopKleur = "Default";
-                    AltvioolKnopKleur = "Default";
-                    CelloKnopKleur = "Yellow";
-                    break;
-
-                default:
-                    break;
+        private void InitializeButtons()
+        {
+            Stringfun stringfun = new Stringfun();
+            var instruments = stringfun.GetInstruments();
+            var boeken = stringfun.GetBooks();
+            foreach (var instrument in instruments)
+            {
+                var instrumentKnop = new Button { HeightRequest = 60, CommandParameter = instrument.Naam, Text = instrument.Naam };
+                instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
+                InstrumentKnoppen.Children.Add(instrumentKnop);
+            }
+            foreach (var boek in boeken)
+            {
+                var boekKnop = new Button { HeightRequest = 60, CommandParameter = boek.Nummer, Text = "Boek " + boek.Nummer };
+                boekKnop.SetBinding(Button.CommandProperty, new Binding("KiesBoek"));
+                boekKnop.SetBinding(Button.IsEnabledProperty, new Binding("Enabled"));
+                BoekKnoppen.Children.Add(boekKnop);
             }
         }
 
