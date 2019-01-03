@@ -10,9 +10,9 @@ namespace StringFunApp.ClassLibrary.Readers
 {
     public class VideoReader
     {
-        public async Task<List<VideoInfo>> ReadAllObjects(string uri)
+        public List<VideoInfo> Read(string uri)
         {
-            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
+            XmlReader reader = XmlImporter.getReader(uri, false);
             List<VideoInfo> videos = new List<VideoInfo>();
             reader.ReadToFollowing("video");
             do
@@ -33,9 +33,9 @@ namespace StringFunApp.ClassLibrary.Readers
             return videos;
         }
 
-        public async Task<List<VideoInfo>> ReadListOfObjects(string uri, List<string> videoIds)
+        public List<VideoInfo> ReadListOfObjects(string uri, List<string> videoIds)
         {
-            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
+            XmlReader reader = XmlImporter.getReader(uri, false);
             List<VideoInfo> videos = new List<VideoInfo>();
             reader.ReadToFollowing("video");
             do

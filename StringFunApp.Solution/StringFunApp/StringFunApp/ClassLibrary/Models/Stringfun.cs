@@ -34,13 +34,13 @@ namespace StringFunApp.ClassLibrary.Models
         private static List<Instrument> ReadInstruments(string uri)
         {
             InstrumentReader instrReader = new InstrumentReader();
-            return instrReader.ReadAllObjects(uri);
+            return instrReader.Read(uri);
         }
 
         private static List<Boek> ReadBooks(string uri)
         {
             BookReader bookReader = new BookReader();
-            return bookReader.ReadAllObjects(uri);
+            return bookReader.Read(uri);
         }
 
         private List<VideoInfo> videos;
@@ -99,10 +99,10 @@ namespace StringFunApp.ClassLibrary.Models
             return null;
         }
 
-        public async Task<List<VideoInfo>> GetVideos(List<string> videoIds)
+        public List<VideoInfo> GetVideos(List<string> videoIds)
         {
             VideoReader videoreader = new VideoReader();
-            List<VideoInfo> InMemoryVideos = await videoreader.ReadListOfObjects(VIDEOS_URI_UNVALIDATED, videoIds);
+            List<VideoInfo> InMemoryVideos = videoreader.ReadListOfObjects(VIDEOS_URI_UNVALIDATED, videoIds);
             return InMemoryVideos;
         }
 
@@ -117,13 +117,13 @@ namespace StringFunApp.ClassLibrary.Models
             return StappenLijst;
         }
 
-        public async Task<Stap> CreateStap(string stap, string instrumentname)
+        public Stap CreateStap(string stap, string instrumentname)
         {
             StapReader reader = new StapReader();
             String stapId = stap.Replace("Stap ", "");
             Instrument instrument = GetInstrument(instrumentname);
-            List<string> videoIds = await reader.ReadVideoIdsByStapIdAsync(STEPS_URI_UNVALIDATED, instrument, stapId);
-            List<VideoInfo> videoInfosList = await GetVideos(videoIds);
+            List<string> videoIds = reader.Read(STEPS_URI_UNVALIDATED, instrument, stapId);
+            List<VideoInfo> videoInfosList = GetVideos(videoIds);
             ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
             foreach (VideoInfo vi in videoInfosList)
             {

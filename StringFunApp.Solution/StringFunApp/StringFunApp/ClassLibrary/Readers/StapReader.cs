@@ -7,16 +7,16 @@ using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class StapReader : Reader<Stap>
+    public class StapReader
     {
-        public Task<List<Stap>> ReadAllObjects(string uri)
+        public List<Stap> Read(string uri)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<string>> ReadVideoIdsByStapIdAsync(string uri, Instrument instrument, string id)
+        public List<string> Read(string uri, Instrument instrument, string id)
         {
-            XmlReader reader = await XmlImporter.getUnvalidatedReader(uri);
+            XmlReader reader = XmlImporter.getReader(uri, false);
             reader.ReadToFollowing("instrument");
             do
             {
@@ -28,11 +28,6 @@ namespace StringFunApp.ClassLibrary.Readers
                 }
             } while (reader.ReadToFollowing("instrument"));
             return null;
-        }
-
-        List<Stap> Reader<Stap>.ReadAllObjects(string uri)
-        {
-            throw new NotImplementedException();
         }
 
         private List<string> ReadStapVideoIds(XmlReader reader, string id)

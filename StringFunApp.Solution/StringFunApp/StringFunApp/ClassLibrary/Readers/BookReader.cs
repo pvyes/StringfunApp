@@ -7,17 +7,15 @@ using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class BookReader : Reader<Boek>
+    public class BookReader
     {
-        public List<Boek> ReadAllObjects(string uri)
+        public BookReader()
         {
-            List<Boek> booklist = ReadAllObjectsAsync(uri).Result;
-            return booklist;
         }
 
-        private async Task<List<Boek>> ReadAllObjectsAsync(string uri)
+        public List<Boek> Read(string uri)
         {
-            XmlReader reader = await XmlImporter.getReader(uri);
+            XmlReader reader = XmlImporter.getReader(uri, true);
             List<Boek> boeken = new List<Boek>();
             reader.ReadToFollowing("book");
             do

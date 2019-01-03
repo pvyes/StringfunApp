@@ -12,33 +12,19 @@ namespace StringFunApp.ClassLibrary
 {
     class XmlImporter
     {
-        private static bool validated = true;
-
-        public async static Task<XmlReader> getReader(string uri)
+        public static XmlReader getReader(string uri, bool validated)
         {
             //validate xml
-            return await SetValidateXml(uri);
+            if (validated)
+            {
+                return getValidatedReader(uri);
+            } else
+            {
+                return GetUnvalidatedReader(uri);
+            }
         }
 
-        public async static Task<XmlReader> getUnvalidatedReader(string uri)
-        {
-            //validate xml
-            return await SetUnvalidateXml(uri);
-        }
-
-        private async static Task<XmlReader> SetUnvalidateXml(string uri)
-        {
-            // Set the validation settings.
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.Async = true;
-
-            // Create the XmlReader object.
-            HttpClient client = new HttpClient();
-            Stream stream = await client.GetStreamAsync(uri);
-            return XmlReader.Create(stream, settings);
-        }
-
-        private async static Task<XmlReader> SetValidateXml(string uri)
+        private static XmlReader getValidatedReader(string uri)
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -50,9 +36,23 @@ namespace StringFunApp.ClassLibrary
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
-            // Create the XmlReader object.
-            var client = new HttpClient();
-            var stream = await client.GetStreamAsync(uri);
+            //validate xml
+            return MakeReader(uri, settings);
+        }
+
+        private static XmlReader GetUnvalidatedReader(string uri)
+        {
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.Async = true;
+
+            //validate xml
+            return MakeReader(uri, settings);
+        }
+
+        private static XmlReader MakeReader(string uri, XmlReaderSettings settings)
+        {
+            HttpClient client = new HttpClient();
+            Stream stream = client.GetStreamAsync(uri).Result;
             return XmlReader.Create(stream, settings);
         }
 
@@ -61,10 +61,8 @@ namespace StringFunApp.ClassLibrary
         {
             if (args.Severity == XmlSeverityType.Warning)
                 Console.WriteLine("\tWarning: Matching schema not found.  No validation occurred." + args.Message);
-
             else
                 Console.WriteLine("\tValidation error: " + args.Message);
-            validated = false;
         }
 
 
