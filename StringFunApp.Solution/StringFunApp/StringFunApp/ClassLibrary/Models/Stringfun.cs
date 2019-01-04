@@ -64,17 +64,6 @@ namespace StringFunApp.ClassLibrary.Models
             set { books = value; }
         }
 
-        /*
-        public static IEnumerable<Instrument> GetInstruments()
-        {
-            return instruments;
-        }
-
-        public static IEnumerable<Boek> GetBooks()
-        {
-            return books;
-        }
-        */
         public Boek GetBook(int booknumber)
         {
             for (int i = 0; i < books.Count; i++)
@@ -99,13 +88,6 @@ namespace StringFunApp.ClassLibrary.Models
             return null;
         }
 
-        public List<VideoInfo> GetVideos(List<string> videoIds)
-        {
-            VideoReader videoreader = new VideoReader();
-            List<VideoInfo> InMemoryVideos = videoreader.ReadListOfObjects(VIDEOS_URI_UNVALIDATED, videoIds);
-            return InMemoryVideos;
-        }
-
         public ObservableCollection<string> GetStappen(int boeknummer)
         {
             ObservableCollection<string> StappenLijst = new ObservableCollection<string>();
@@ -117,20 +99,11 @@ namespace StringFunApp.ClassLibrary.Models
             return StappenLijst;
         }
 
-        public Stap CreateStap(string stap, string instrumentname)
+        public Stap getStap(string stap, string instrumentname)
         {
-            StapReader reader = new StapReader();
-            String stapId = stap.Replace("Stap ", "");
+            int stapNumber = Convert.ToInt32(stap.Replace("Stap ", ""));
             Instrument instrument = GetInstrument(instrumentname);
-            List<string> videoIds = reader.Read(STEPS_URI_UNVALIDATED, instrument, stapId);
-            List<VideoInfo> videoInfosList = GetVideos(videoIds);
-            ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
-            foreach (VideoInfo vi in videoInfosList)
-            {
-                videoInfos.Add(vi);
-            }
-
-            Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = Convert.ToInt32(stap.Replace("Stap ", "")), VideoLijst = videoInfos };
+            Stap inMemoryStap = StapFactory.CreateStap(stapNumber, instrument);
             return inMemoryStap;
         }
 
@@ -138,9 +111,5 @@ namespace StringFunApp.ClassLibrary.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    internal class NestedConstructor
-    {
     }
 }

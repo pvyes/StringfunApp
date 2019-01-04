@@ -3,60 +3,47 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Android.OS;
 using FormsVideoLibrary;
 using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class VideoReader
+    public class VideoReader : AsyncTask<string, int, List<String>>
     {
-        public List<VideoInfo> Read(string uri)
+
+        private List<String> ReadVideoData(string uri, string videoId)
         {
             XmlReader reader = XmlImporter.getReader(uri, false);
-            List<VideoInfo> videos = new List<VideoInfo>();
-            reader.ReadToFollowing("video");
-            do
+            List<String> videoData = new List<String>();
+            try
             {
-                string uniekenaam;
-                string displayname;
-                string videosource;
-                var inner = reader.ReadSubtree();
-                inner.ReadToFollowing("videoname");
-                uniekenaam = inner.ReadString();
-                inner.ReadToFollowing("title");
-                displayname = inner.ReadString();
-                inner.ReadToFollowing("source");
-                videosource = inner.ReadString();
-                VideoInfo video = new VideoInfo { UniekeNaam = uniekenaam, DisplayName = displayname, VideoSource = VideoSource.FromUri(videosource) };
-                videos.Add(video);
-            } while (reader.ReadToFollowing("video"));
-            return videos;
+                while (videoData.Count == 0 && reader.ReadToFollowing("video")) {
+                    string id = reader.GetAttribute("id");
+                    if (id.Equals(videoId))
+                    {
+                        XmlReader inner = reader.ReadSubtree();
+                        videoData.AddRange(ReadInnerData(inner, videoId));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\tReader error: " + e.Message);
+            }
+            return videoData;
         }
 
-        public List<VideoInfo> ReadListOfObjects(string uri, List<string> videoIds)
+        private List<String> ReadInnerData(XmlReader inner, string id)
         {
-            XmlReader reader = XmlImporter.getReader(uri, false);
-            List<VideoInfo> videos = new List<VideoInfo>();
-            reader.ReadToFollowing("video");
-            do
-            {
-                string uniekenaam;
-                string displayname;
-                string videosource;
-                var inner = reader.ReadSubtree();
-                inner.ReadToFollowing("videoname");
-                uniekenaam = inner.ReadString();
-                if (CompareId(uniekenaam, videoIds))
-                {
-                    inner.ReadToFollowing("title");
-                    displayname = inner.ReadString();
-                    inner.ReadToFollowing("source");
-                    videosource = inner.ReadString();
-                    VideoInfo video = new VideoInfo { UniekeNaam = uniekenaam, DisplayName = displayname, VideoSource = VideoSource.FromUri(videosource) };
-                    videos.Add(video);
-                }
-            } while (reader.ReadToFollowing("video"));
-            return videos;
+            List<String> innerData = new List<string>(); ;
+            inner.ReadToFollowing("videoname");
+            innerData.Add(inner.ReadString());
+            inner.ReadToFollowing("title");
+            innerData.Add(inner.ReadString());
+            inner.ReadToFollowing("source");
+            innerData.Add(inner.ReadString());
+            return innerData;
         }
 
         private bool CompareId(string uniekenaam, List<string> videoIds)
@@ -66,6 +53,11 @@ namespace StringFunApp.ClassLibrary.Readers
                 return true;
             }
             return false;
+        }
+
+        protected override List<String> RunInBackground(params string[] @params)
+        {
+            return ReadVideoData(@params[0], @params[1]);
         }
     } 
 }
