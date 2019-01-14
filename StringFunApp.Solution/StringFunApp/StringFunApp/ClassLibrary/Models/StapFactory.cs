@@ -19,11 +19,16 @@ namespace StringFunApp.ClassLibrary.Models
             get { return _instance.Value; }
         }
 
-        public static Stap CreateStap(int stapNumber, Instrument instrument)
+        public static async System.Threading.Tasks.Task<Stap> CreateStapAsync(int stapNumber, Instrument instrument)
         {
-            StapReader reader = new StapReader();
-            List<string> videoIds = Cast<List<string>>.perform(reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam).Get());
-            ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
+//          StapReader reader = new StapReader();
+//          List<string> videoIds = new List<string>();
+//          videoIds = await reader.ReadVideoIdsAsync(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
+
+            AndroidStapReader reader = new AndroidStapReader();
+            ObservableCollection<VideoInfo> videoIds = new ObservableCollection<VideoInfo>();
+            videoIds = reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
+
             for (int i = 0; i < videoIds.Count; i++)
             {
                 string vid = videoIds[i];

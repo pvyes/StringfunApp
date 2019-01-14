@@ -4,7 +4,9 @@
              x:Class="StringFunApp.Views.ContactView">
     <ContentPage.Content>
         <StackLayout>
-            <Label>Hier komt contactinformatie</Label>
+            <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                <Label Text="StringFun" Style="{DynamicResource TitleStyle}"/>
+            </FlexLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

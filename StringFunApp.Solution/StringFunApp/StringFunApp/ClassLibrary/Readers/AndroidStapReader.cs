@@ -8,12 +8,18 @@ using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class StapReader
+    public class AndroidStapReader : AsyncTask<string, int, List<string>>
     {
-        public async Task<List<string>> ReadVideoIdsAsync(string uri, string id, string instrument)
+        Stap stap;
+
+        public AndroidStapReader()
         {
-            var readerTask = XmlImporterAsync.getReaderAsync(uri, false);
-            var reader = await readerTask;
+            stap = new Stap();
+        }
+
+        private List<string> ReadVideoIds(string uri, string id, string instrument)
+        {
+            XmlReader reader = XmlImporter.getReader(uri, false);
             try
             {
                 reader.ReadToFollowing("instrument");
@@ -33,6 +39,12 @@ namespace StringFunApp.ClassLibrary.Readers
             }
            
             return null;
+        }
+
+        protected override List<string> RunInBackground(params string[] @params)
+        {
+            List<string> videoIds = ReadVideoIds(@params[0], @params[1], @params[2]);
+            return videoIds;
         }
 
         private List<string> ReadStapVideoIds(XmlReader reader, string id)
