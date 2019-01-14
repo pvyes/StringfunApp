@@ -89,14 +89,14 @@ namespace StringFunApp.ClassLibrary.ViewModels
         #endregion
 
         public ICommand ViewStap => new Command<string>(
-            async (string selectedstap) =>
+            (string selectedstap) =>
             {
                 IsLoading = true;
                 try
                 {
                     SelectedStap = selectedstap;
-                    Stap NieuweStap = await Stringfun.getStapAsync(SelectedStap, TypeInstrument);
-                    await navigation.PushAsync(new VideoPlayerView(NieuweStap));
+                    Stap NieuweStap = Stringfun.getStap(SelectedStap, TypeInstrument);
+                    navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
                 catch (Exception e)
                 {

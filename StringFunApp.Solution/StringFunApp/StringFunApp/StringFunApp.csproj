@@ -2,19 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <ApplicationIcon>iconm.ico</ApplicationIcon>
-    <PackageId>StringFun</PackageId>
-    <Authors>Peter Vansweevelt, Samuel Sette</Authors>
-    <Company>STAP Roeselare</Company>
-    <Description>Facilitates access to the instruction videos of teh Music Method 'StringFun' by Dirk Lievens.</Description>
-    <Copyright>STAP Roeselare</Copyright>
-    <PackageReleaseNotes>dev-version</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

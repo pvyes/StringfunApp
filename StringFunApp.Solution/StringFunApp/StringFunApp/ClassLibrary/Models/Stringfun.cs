@@ -99,11 +99,11 @@ namespace StringFunApp.ClassLibrary.Models
             return StappenLijst;
         }
 
-        public async Task<Stap> getStapAsync(string stap, string instrumentname)
+        public Stap getStap(string stap, string instrumentname)
         {
             int stapNumber = Convert.ToInt32(stap.Replace("Stap ", ""));
             Instrument instrument = GetInstrument(instrumentname);
-            Stap inMemoryStap = await StapFactory.CreateStapAsync(stapNumber, instrument);
+            Stap inMemoryStap = StapFactory.CreateStap(stapNumber, instrument);
             return inMemoryStap;
         }
 
