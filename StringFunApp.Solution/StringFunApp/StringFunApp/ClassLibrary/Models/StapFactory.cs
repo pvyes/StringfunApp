@@ -22,7 +22,7 @@ namespace StringFunApp.ClassLibrary.Models
         public static Stap CreateStap(int stapNumber, Instrument instrument)
         {
             StapReader reader = new StapReader();
-            List<string> videoIds = Cast<List<string>>.perform(reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam).Get());
+            List<string> videoIds = reader.ReadVideoIds(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
             ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
             for (int i = 0; i < videoIds.Count; i++)
             {
@@ -33,5 +33,22 @@ namespace StringFunApp.ClassLibrary.Models
             Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, VideoLijst = videoInfos };
             return inMemoryStap;
         }
+
+        /*
+                public static Stap CreateStap(int stapNumber, Instrument instrument)
+                {
+                    StapReader reader = new StapReader();
+                    List<string> videoIds = Cast<List<string>>.perform(reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam).Get());
+                    ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
+                    for (int i = 0; i < videoIds.Count; i++)
+                    {
+                        string vid = videoIds[i];
+                        VideoInfo vInfo = VideoFactory.CreateVideoInfo(vid);
+                        videoInfos.Add(VideoFactory.CreateVideoInfo(vid));
+                    }
+                    Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, VideoLijst = videoInfos };
+                    return inMemoryStap;
+                }
+ */
     }
 }

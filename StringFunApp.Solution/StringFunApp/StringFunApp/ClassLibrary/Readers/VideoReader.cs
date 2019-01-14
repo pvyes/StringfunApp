@@ -14,7 +14,7 @@ namespace StringFunApp.ClassLibrary.Readers
 
         private List<String> ReadVideoData(string uri, string videoId)
         {
-            XmlReader reader = XmlImporter.getReader(uri, false);
+            XmlReader reader = XmlImporter.GetReader(uri, false);
             List<String> videoData = new List<String>();
             try
             {
