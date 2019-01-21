@@ -22,7 +22,7 @@ namespace StringFunApp.ClassLibrary.Readers
         public List<string> ReadVideoIds(string uri, string id, string instrument)
         {
  //           List<string> videoIds = ReadVideoIdsAsync(uri, id, instrument);
-            return null;
+            return new List<string>();
         }
 
         private List<string> ReadVideoIdsAsync(string uri, string id, string instrument)
