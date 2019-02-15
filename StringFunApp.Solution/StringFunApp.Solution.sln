@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFunApp.iOS", "StringF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFunApp.UWP", "StringFunApp\StringFunApp.UWP\StringFunApp.UWP.csproj", "{639849F1-2B5B-4782-BC91-059B0D96D5BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringFunApp", "StringFunApp\StringFunApp\StringFunApp.csproj", "{11127A54-CA2B-4929-BFA5-A4C22F27DEA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringFunApp", "StringFunApp\StringFunApp\StringFunApp.csproj", "{11127A54-CA2B-4929-BFA5-A4C22F27DEA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

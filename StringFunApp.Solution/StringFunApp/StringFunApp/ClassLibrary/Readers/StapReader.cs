@@ -21,8 +21,13 @@ namespace StringFunApp.ClassLibrary.Readers
 
         public List<string> ReadVideoIds(string uri, string id, string instrument)
         {
- //           List<string> videoIds = ReadVideoIdsAsync(uri, id, instrument);
-            return new List<string>();
+            Task<List<string>> videoIds = 
+                Task.Run(
+                    () => ReadVideoIdsAsync(uri, id, instrument)
+                );
+            videoIds.Wait();
+
+            return videoIds.Result;
         }
 
         private List<string> ReadVideoIdsAsync(string uri, string id, string instrument)
@@ -47,7 +52,7 @@ namespace StringFunApp.ClassLibrary.Readers
             {
                 Console.WriteLine("\tReader error: " + e.Message);
             }
-           
+          
             return null;
         }
 
@@ -61,14 +66,14 @@ namespace StringFunApp.ClassLibrary.Readers
                 if (stepnumber.Equals(id))
                 {
                     var inner = reader.ReadSubtree();
-                    List<string> videoIds = ReadVideoIdsAsync(inner);
+                    List<string> videoIds = ReadVideoIds(inner);
                     return videoIds;
                 }
             } while (reader.ReadToFollowing("step"));
             return null;
         }
 
-        private List<string> ReadVideoIdsAsync(XmlReader reader)
+        private List<string> ReadVideoIds(XmlReader reader)
         {
             List<string> videoIds = new List<string>();
             reader.ReadToFollowing("videoid");

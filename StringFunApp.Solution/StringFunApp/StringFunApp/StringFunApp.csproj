@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>STAP Roeselare</Authors>
+    <Company>STAP RoeselareSTAP Roeselare</Company>
+    <PackageId>StringFun</PackageId>
+    <Product>StringFun</Product>
+    <Description>This app supports Stringfun method for violin, viola and cello, as created by Dirk Lievens. Further information on www.stringfun.com.</Description>
+    <Copyright>STAP Roeselare</Copyright>
+    <PackageIconUrl>https://www.staproeselare.be/stringfun/images/stringfunicon.ico</PackageIconUrl>
+    <PackageTags>music education</PackageTags>
+    <AssemblyName>StringFun</AssemblyName>
+    <ApplicationIcon>stringfunicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

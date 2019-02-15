@@ -22,7 +22,7 @@ namespace StringFunApp.ClassLibrary.Models
         public static VideoInfo CreateVideoInfo(string videoId)
         {
             VideoReader reader = new VideoReader();
-            List<string> videoData = Cast<List<string>>.perform(reader.Execute(VIDEOS_URI_UNVALIDATED, videoId).Get());
+            List<string> videoData = reader.ReadVideo(VIDEOS_URI_UNVALIDATED, videoId);
             string videoName = videoData[0];
             string videoTitle = videoData[1];
             string videoSource = videoData[2];
