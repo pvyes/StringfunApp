@@ -4,7 +4,9 @@ namespace StringFunApp
 {
     public class VideoInfo
     {
-        public string UniekeNaam { get; set; }
+        public string Title { get; set; }
+
+        public string Id { get; set; }
 
         public string DisplayName { set; get; }
 

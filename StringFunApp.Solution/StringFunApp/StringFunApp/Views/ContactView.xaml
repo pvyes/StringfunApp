@@ -4,7 +4,7 @@
              x:Class="StringFunApp.Views.ContactView">
     <ContentPage.Content>
         <StackLayout>
-            <Label>Hier komt contactinformatie</Label>
+            <Label>This app has been created by STAP Roeselare, who owns the rights. You can contact the at appprojecten@staproeselare.be.</Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
