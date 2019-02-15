@@ -22,7 +22,7 @@ namespace StringFunApp.ClassLibrary.Models
         public static Stap CreateStap(int stapNumber, Instrument instrument)
         {
             StapReader reader = new StapReader();
-            List<string> videoIds = Cast<List<string>>.perform(reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam).Get());
+            List<string> videoIds = reader.ReadVideoIds(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
             ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
             for (int i = 0; i < videoIds.Count; i++)
             {

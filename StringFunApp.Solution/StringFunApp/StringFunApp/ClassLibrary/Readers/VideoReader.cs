@@ -9,12 +9,23 @@ using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class VideoReader : AsyncTask<string, int, List<String>>
+    public class VideoReader
     {
 
-        private List<String> ReadVideoData(string uri, string videoId)
+        public List<string> ReadVideo(string uri, string videoId)
         {
-            XmlReader reader = XmlImporter.getReader(uri, false);
+            Task<List<string>> ReadVideoDataTask = 
+                Task.Run(
+                    () => ReadVideoData(uri, videoId)
+                );
+            ReadVideoDataTask.Wait();
+
+            return ReadVideoDataTask.Result;
+        }
+
+        private List<string> ReadVideoData(string uri, string videoId)
+        {
+            XmlReader reader = XmlImporter.GetReader(uri, false);
             List<String> videoData = new List<String>();
             try
             {
@@ -53,11 +64,6 @@ namespace StringFunApp.ClassLibrary.Readers
                 return true;
             }
             return false;
-        }
-
-        protected override List<String> RunInBackground(params string[] @params)
-        {
-            return ReadVideoData(@params[0], @params[1]);
         }
     } 
 }

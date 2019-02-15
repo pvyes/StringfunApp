@@ -15,7 +15,7 @@ namespace StringFunApp.ClassLibrary.Readers
 
         public List<Boek> Read(string uri)
         {
-            XmlReader reader = XmlImporter.getReader(uri, true);
+            XmlReader reader = XmlImporter.GetReader(uri, true);
             List<Boek> boeken = new List<Boek>();
             reader.ReadToFollowing("book");
             do

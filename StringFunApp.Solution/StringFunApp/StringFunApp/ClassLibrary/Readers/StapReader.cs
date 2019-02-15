@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -8,7 +9,7 @@ using StringFunApp.ClassLibrary.Models;
 
 namespace StringFunApp.ClassLibrary.Readers
 {
-    public class StapReader : AsyncTask<string, int, List<string>>
+    public class StapReader
     {
         Stap stap;
 
@@ -17,9 +18,22 @@ namespace StringFunApp.ClassLibrary.Readers
             stap = new Stap();
         }
 
-        private List<string> ReadVideoIds(string uri, string id, string instrument)
+
+        public List<string> ReadVideoIds(string uri, string id, string instrument)
         {
-            XmlReader reader = XmlImporter.getReader(uri, false);
+            Task<List<string>> videoIds = 
+                Task.Run(
+                    () => ReadVideoIdsAsync(uri, id, instrument)
+                );
+            videoIds.Wait();
+
+            return videoIds.Result;
+        }
+
+        private List<string> ReadVideoIdsAsync(string uri, string id, string instrument)
+        {
+
+            XmlReader reader = XmlImporter.GetReader(uri, false);
             try
             {
                 reader.ReadToFollowing("instrument");
@@ -29,7 +43,8 @@ namespace StringFunApp.ClassLibrary.Readers
                     if (instrumentname.Contains(instrument))
                     {
                         var inner = reader.ReadSubtree();
-                        return ReadStapVideoIds(inner, id);
+                        List<string> StapVideoIds = ReadStapVideoIds(inner, id);
+                        return StapVideoIds;
                     }
                 } while (reader.ReadToFollowing("instrument"));
             }
@@ -37,15 +52,10 @@ namespace StringFunApp.ClassLibrary.Readers
             {
                 Console.WriteLine("\tReader error: " + e.Message);
             }
-           
+          
             return null;
         }
 
-        protected override List<string> RunInBackground(params string[] @params)
-        {
-            List<string> videoIds = ReadVideoIds(@params[0], @params[1], @params[2]);
-            return videoIds;
-        }
 
         private List<string> ReadStapVideoIds(XmlReader reader, string id)
         {
