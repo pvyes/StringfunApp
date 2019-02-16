@@ -16,7 +16,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
         {
             this.navigation = navigation;
             Stringfun = Stringfun.Instance;
-            Knoppen = buttons;
+            StapKnoppen = buttons;
             BoekNummer = boeknummer;
             BoekNaam = "Boek " + boeknummer;
             TypeInstrument = typeinstrument;
@@ -77,10 +77,10 @@ namespace StringFunApp.ClassLibrary.ViewModels
         }
 
         private FlexLayout knoppen;
-        public FlexLayout Knoppen
+        public FlexLayout StapKnoppen
         {
             get { return knoppen; }
-            set { knoppen = value; RaisePropertyChanged(nameof(Knoppen)); }
+            set { knoppen = value; RaisePropertyChanged(nameof(StapKnoppen)); }
         }
 
         private INavigation navigation;
@@ -95,6 +95,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                 try
                 {
                     SelectedStap = selectedstap;
+                    ChangeStapButtonStyle(SelectedStap);
                     Stap NieuweStap = Stringfun.getStap(SelectedStap, TypeInstrument);
                     navigation.PushAsync(new VideoPlayerView(NieuweStap));
                 }
@@ -113,13 +114,31 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
         private void InitializeButtons()
         {
-            foreach (var stap in StappenLijst)
+            foreach (var stapnr in StappenLijst)
             {
-                var stapKnop = new Button { CommandParameter = stap, Text = stap, WidthRequest = 70, HeightRequest = 60 };
+                var stapKnop = new Button { CommandParameter = stapnr, Text = stapnr, WidthRequest = 70, HeightRequest = 60 };
                 stapKnop.SetBinding(Button.CommandProperty, new Binding("ViewStap"));
-                Knoppen.Children.Add(stapKnop);
+                StapKnoppen.Children.Add(stapKnop);
             }
         }
+
+        private void ChangeStapButtonStyle(string buttontext)
+        {
+            foreach (Button stapknop in StapKnoppen.Children)
+            {
+                if (stapknop.Text == buttontext)
+                {
+                    stapknop.BackgroundColor = MainViewModel.BTN_SELECTED;
+                    stapknop.TextColor = MainViewModel.TEXT_SELECTED;
+                }
+                else
+                {
+                    stapknop.TextColor = MainViewModel.TEXT_DEFAULT;
+                    stapknop.BackgroundColor = MainViewModel.BTN_DEFAULT;
+                }
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
