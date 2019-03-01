@@ -97,7 +97,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                     SelectedStap = selectedstap;
                     ChangeStapButtonStyle(SelectedStap);
                     Stap NieuweStap = Stringfun.getStap(SelectedStap, TypeInstrument);
-                    navigation.PushAsync(new VideoPlayerView(NieuweStap));
+                    navigation.PushAsync(new VideoSelectorView(NieuweStap));
                 }
                 catch (Exception e)
                 {
