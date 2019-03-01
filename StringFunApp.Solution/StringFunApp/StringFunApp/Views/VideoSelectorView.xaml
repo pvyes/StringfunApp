@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
+             xmlns:local="clr-namespace:StringFunApp.ClassLibrary.ViewModels"
+             x:Class="StringFunApp.Views.VideoSelectorView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="#2287b1">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
+            <FlexLayout x:Name="ListLayout" Grid.Row="2">
+                <local:ClickableListView x:Name="VideoListView" ItemsSource="{Binding Videos}" ItemClickCommand="{Binding ItemClickCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding DisplayName}">
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </local:ClickableListView>
+            </FlexLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

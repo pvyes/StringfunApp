@@ -22,16 +22,29 @@ namespace StringFunApp.ClassLibrary.Models
         public static Stap CreateStap(int stapNumber, Instrument instrument)
         {
             StapReader reader = new StapReader();
-            List<string> videoIds = Cast<List<string>>.perform(reader.Execute(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam).Get());
+            List<string> videoIds = reader.ReadVideoIds(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
             ObservableCollection<VideoInfo> videoInfos = new ObservableCollection<VideoInfo>();
+            if (videoIds != null)
+            {
+                foreach (VideoInfo vi in GetVideoInfos(videoIds))
+                {
+                    videoInfos.Add(vi);
+                }
+           }
+            Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, VideoLijst = videoInfos };
+            return inMemoryStap;
+        }
+
+        private static List<VideoInfo> GetVideoInfos(List<string> videoIds)
+        {
+            List<VideoInfo> videoInfos = new List<VideoInfo>();
             for (int i = 0; i < videoIds.Count; i++)
             {
                 string vid = videoIds[i];
                 VideoInfo vInfo = VideoFactory.CreateVideoInfo(vid);
                 videoInfos.Add(VideoFactory.CreateVideoInfo(vid));
             }
-            Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, VideoLijst = videoInfos };
-            return inMemoryStap;
+            return videoInfos;
         }
     }
 }

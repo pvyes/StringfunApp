@@ -12,19 +12,24 @@ namespace StringFunApp.ClassLibrary
 {
     class XmlImporter
     {
-        public static XmlReader getReader(string uri, bool validated)
+        static HttpClient client = new HttpClient();
+
+        public static XmlReader GetReader(string uri, bool validated)
         {
             //validate xml
+            Stream stream;
             if (validated)
             {
-                return getValidatedReader(uri);
-            } else
-            {
-                return GetUnvalidatedReader(uri);
+                stream = GetValidatedReader(uri);
             }
+            else
+            {
+                stream = GetUnvalidatedReader(uri);
+            }
+            return XmlReader.Create(stream);
         }
 
-        private static XmlReader getValidatedReader(string uri)
+        private static Stream GetValidatedReader(string uri)
         {
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -40,7 +45,7 @@ namespace StringFunApp.ClassLibrary
             return MakeReader(uri, settings);
         }
 
-        private static XmlReader GetUnvalidatedReader(string uri)
+        private static Stream GetUnvalidatedReader(string uri)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.Async = true;
@@ -49,11 +54,12 @@ namespace StringFunApp.ClassLibrary
             return MakeReader(uri, settings);
         }
 
-        private static XmlReader MakeReader(string uri, XmlReaderSettings settings)
+        private static Stream MakeReader(string uri, XmlReaderSettings settings)
         {
-            HttpClient client = new HttpClient();
-            Stream stream = client.GetStreamAsync(uri).Result;
-            return XmlReader.Create(stream, settings);
+            var makerReaderTask = client.GetStreamAsync(uri); ;
+            Stream stream = makerReaderTask.Result;
+            return stream;
+
         }
 
         // Display any warnings or errors.

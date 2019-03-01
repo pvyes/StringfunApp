@@ -1,23 +1,17 @@
-﻿using FormsVideoLibrary;
-using StringFunApp.ClassLibrary;
-using StringFunApp.ClassLibrary.Models;
+﻿using StringFunApp.ClassLibrary.Models;
 using StringFunApp.ClassLibrary.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace StringFunApp.Views
 {
     public partial class VideoPlayerView : ContentPage
     {
-        public VideoPlayerView(Stap stap)
+        public VideoPlayerView(VideoInfo videoinfo)
         {
             InitializeComponent();
-            BindingContext = new VideoPlayerViewModel(stap, Navigation);
+            VideoPlayerViewModel vpvm = new VideoPlayerViewModel(videoinfo, Navigation);
+            videoPlayer.Source = vpvm.VideoUri;
         }
     }
 }

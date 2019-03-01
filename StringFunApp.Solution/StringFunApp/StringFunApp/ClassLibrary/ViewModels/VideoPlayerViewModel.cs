@@ -1,4 +1,5 @@
-﻿using StringFunApp.ClassLibrary.Models;
+﻿using FormsVideoLibrary;
+using StringFunApp.ClassLibrary.Models;
 using StringFunApp.Views;
 using System;
 using System.Collections.Generic;
@@ -15,35 +16,27 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private INavigation navigation;
 
-        private ObservableCollection<VideoInfo> videos;
-        public ObservableCollection<VideoInfo> Videos
+        private VideoSource videoUri;
+        public VideoSource VideoUri
         {
-            get { return videos; }
-            set { videos = value; RaisePropertyChanged(nameof(Videos)); }
+            get { return videoUri; }
+            set { videoUri = value; RaisePropertyChanged(nameof(VideoUri)); }
         }
 
-        private bool visible;
-        public bool Visible
+        /*
+private bool visible;
+public bool Visible
+{
+get { return visible; }
+set { visible = value; RaisePropertyChanged(nameof(Visible)); }
+}
+
+*/
+        public VideoPlayerViewModel(VideoInfo videoInfo, INavigation navigation)
         {
-            get { return visible; }
-            set { visible = value; RaisePropertyChanged(nameof(Visible)); }
+            this.videoUri = videoInfo.VideoSource;
+            this.navigation = navigation;           
         }
-
-
-        public VideoPlayerViewModel(Stap stap, INavigation navigation)
-        {
-            Videos = stap.VideoLijst;
-            Visible = false;
-            this.navigation = navigation;
-        }
-
-        public ICommand ViewContact => new Command(
-            () => { navigation.PushAsync(new ContactView()); }
-            );
-
-        public ICommand ShowVideoPlayer => new Command(
-            () => { Visible = true; }
-            );
 
         private void RaisePropertyChanged(string propertyName)
         {
