@@ -11,6 +11,11 @@ namespace StringFunApp.ClassLibrary.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        static public Color BTN_SELECTED = Color.FromRgb(119, 119, 119);
+        static public Color TEXT_SELECTED = Color.White;
+        static public Color BTN_DEFAULT = Color.Default;
+        static public Color TEXT_DEFAULT = Color.Default;
+
         public MainViewModel(INavigation navigation, FlexLayout instrumentKnoppen, FlexLayout boekKnoppen)
         {
             this.navigation = navigation;
@@ -69,28 +74,47 @@ namespace StringFunApp.ClassLibrary.ViewModels
         #endregion
 
         public ICommand KiesInstrument => new Command<string>(
-            (string instrument) => { TypeInstrument = instrument; SelectedInstrument(TypeInstrument); Enabled = true; }
+            (string instrument) => { TypeInstrument = instrument; ChangeInstrumentButtonStyle(TypeInstrument); Enabled = true; }
             );
 
         public ICommand KiesBoek => new Command<int>(
-            (int num) => { BoekNummer = num; navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
+            (int num) => { BoekNummer = num; ChangeBookButtonStyle("Boek " + BoekNummer.ToString()); navigation.PushAsync(new StapView(BoekNummer, TypeInstrument)); }
             );
 
         public ICommand ViewContact => new Command(
             () => { navigation.PushAsync(new ContactView()); }
             );
 
-        public void SelectedInstrument(string type)
+        private void ChangeInstrumentButtonStyle(string buttontext)
         {
             foreach (Button instrumentknop in InstrumentKnoppen.Children)
             {
-                if (instrumentknop.Text == type)
+                if (instrumentknop.Text == buttontext)
                 {
-                    instrumentknop.BackgroundColor = Color.Yellow;
+                    instrumentknop.BackgroundColor = BTN_SELECTED;
+                    instrumentknop.TextColor = TEXT_SELECTED;
                 }
                 else
                 {
-                    instrumentknop.BackgroundColor = Color.Default;
+                    instrumentknop.TextColor = TEXT_DEFAULT;
+                    instrumentknop.BackgroundColor = BTN_DEFAULT;
+                }
+            }
+        }
+
+        private void ChangeBookButtonStyle(string buttontext)
+        {
+            foreach (Button boekknop in BoekKnoppen.Children)
+            {
+                if (boekknop.Text == buttontext)
+                {
+                    boekknop.BackgroundColor = BTN_SELECTED;
+                    boekknop.TextColor = TEXT_SELECTED;
+                }
+                else
+                {
+                    boekknop.TextColor = TEXT_DEFAULT;
+                    boekknop.BackgroundColor = BTN_DEFAULT;
                 }
             }
         }
@@ -102,7 +126,10 @@ namespace StringFunApp.ClassLibrary.ViewModels
             var boeken = stringfun.Books;
             foreach (var instrument in instruments)
             {
-                var instrumentKnop = new Button { HeightRequest = 60, CommandParameter = instrument.Naam, Text = instrument.Naam };
+                var instrumentKnop = new Button {   HeightRequest = 60,
+                                                    CommandParameter = instrument.Naam,
+                                                    Text = instrument.Naam,
+                                                };
                 instrumentKnop.SetBinding(Button.CommandProperty, new Binding("KiesInstrument"));
                 InstrumentKnoppen.Children.Add(instrumentKnop);
             }

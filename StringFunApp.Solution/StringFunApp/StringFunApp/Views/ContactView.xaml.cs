@@ -14,7 +14,7 @@ namespace StringFunApp.Views
 	{
 		public ContactView ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 	}
 }
