@@ -9,7 +9,11 @@ namespace StringFunApp.Views
         public VideoSelectorView(Stap stap)
         {
             InitializeComponent();
-            BindingContext = new VideoSelectorViewModel(stap, Navigation);
+            VideoSelectorViewModel vsvm = new VideoSelectorViewModel(stap, Navigation);
+            BindingContext = vsvm;
+            /* bind an action to the listview items*/
+            VideoListView.ItemTapped += vsvm.ShowVideo;
+            VideoListView.SelectedItem = null;
         }
     }
 }
