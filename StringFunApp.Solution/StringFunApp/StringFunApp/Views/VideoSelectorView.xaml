@@ -9,27 +9,63 @@
         <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="100" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <FlexLayout Grid.Row="0" JustifyContent="Center" BackgroundColor="#2287b1">
-                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
-            </FlexLayout>
-            <FlexLayout x:Name="ListLayout" Grid.Row="2">
-                <local:ClickableListView x:Name="VideoListView" ItemsSource="{Binding Videos}" ItemClickCommand="{Binding ItemClickCommand}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextCell Text="{Binding DisplayName}">
-                            </TextCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </local:ClickableListView>
-            </FlexLayout>
-        </Grid>
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <StackLayout>
+                    <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                        <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+                        <FlexLayout JustifyContent="Center">
+                            <Label Margin="10" FontSize="Large" Text="{Binding TypeInstrument}"></Label>
+                            <Label Margin="10" FontSize="Large" Text="{Binding BoekNaam}"></Label>
+                        </FlexLayout>
+                    </FlexLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="80"  />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <FlexLayout
+                        Grid.Row="0"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#ff4d4d"
+                        AlignItems="Center">
+                            <Label x:Name="NoVideosAvailable" 
+                           WidthRequest="300"
+                           Text="{Binding NoVideosAvailableMessage}"
+                           TextColor="White"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                        />
+                        </FlexLayout>
+                        <FlexLayout
+                        Grid.Row="0"
+                        IsVisible="{Binding ListVisibility}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#2287b1"
+                        AlignItems="Center">
+                            <Label x:Name="ListHeader" 
+                            Text="Kies een video." 
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            HeightRequest="50" 
+                            TextColor="White"
+                            />
+                        </FlexLayout>
+                        <FlexLayout
+                        Grid.Row="2"
+                        JustifyContent="Center"
+                        IsVisible="{Binding ListVisibility}" 
+                        >
+                            <ListView 
+                            x:Name="VideoListView" 
+                            ItemsSource="{Binding VideoDisplayNames}" 
+                            >
+                            </ListView>
+                        </FlexLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
