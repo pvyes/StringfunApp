@@ -14,6 +14,19 @@ namespace StringFunApp.ClassLibrary.Models
         public const string INIT_URI = "https://www.staproeselare.be/stringfun/xml/stringfuninit.xml";
         public const string VIDEOS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunvideos.xml";
         public const string STEPS_URI = "https://www.staproeselare.be/stringfun/xml/stringfunsteps.xml";
+
+        internal Boek getBookByNumber(int boeknummer)
+        {
+            foreach (Boek b in books)
+            {
+                if (b.Nummer == boeknummer)
+                {
+                    return b;
+                }
+            }
+            return null;
+        }
+
         public const string STEPS_URI_UNVALIDATED = "https://www.staproeselare.be/stringfun/xml/stringfunstepsUnvalidated.xml";
         public const string VIDEOS_URI_UNVALIDATED = "https://www.staproeselare.be/stringfun/xml/stringfunvideosUnvalidated.xml";
 
@@ -91,7 +104,7 @@ namespace StringFunApp.ClassLibrary.Models
         public ObservableCollection<string> GetStappen(int boeknummer)
         {
             ObservableCollection<string> StappenLijst = new ObservableCollection<string>();
-            var boek = GetBook(boeknummer);
+            Boek boek = GetBook(boeknummer);
             for (int i = boek.FirstStep; i <= boek.LastStep; i++)
             {
                 StappenLijst.Add("Stap " + i);
@@ -99,11 +112,11 @@ namespace StringFunApp.ClassLibrary.Models
             return StappenLijst;
         }
 
-        public Stap getStap(string stap, string instrumentname)
+        public Stap getStap(string stap, string instrumentname, Boek boek)
         {
             int stapNumber = Convert.ToInt32(stap.Replace("Stap ", ""));
             Instrument instrument = GetInstrument(instrumentname);
-            Stap inMemoryStap = StapFactory.CreateStap(stapNumber, instrument);
+            Stap inMemoryStap = StapFactory.CreateStap(stapNumber, instrument, boek);
             return inMemoryStap;
         }
 
