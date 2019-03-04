@@ -32,10 +32,16 @@ namespace StringFunApp.ClassLibrary.Readers
                 firststap = Convert.ToInt32(reader.ReadString());
                 reader.ReadToNextSibling("last");
                 laststap = Convert.ToInt32(reader.ReadString());
-                Boek boek = new Boek { Nummer = nummer, Kleur = kleur, FirstStep = firststap, LastStep = laststap };
+                string boeknaam = generateBoeknaam(nummer);
+                Boek boek = new Boek { Nummer = nummer, Naam = boeknaam, Kleur = kleur, FirstStep = firststap, LastStep = laststap };
                 boeken.Add(boek);
             } while (reader.ReadToFollowing("book"));
             return boeken;
+        }
+
+        private string generateBoeknaam(int nummer)
+        {
+            return "Boek " + nummer.ToString();
         }
     }
 }
