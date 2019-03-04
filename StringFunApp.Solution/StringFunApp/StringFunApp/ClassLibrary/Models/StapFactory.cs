@@ -19,7 +19,7 @@ namespace StringFunApp.ClassLibrary.Models
             get { return _instance.Value; }
         }
 
-        public static Stap CreateStap(int stapNumber, Instrument instrument)
+        public static Stap CreateStap(int stapNumber, Instrument instrument, Boek boek)
         {
             StapReader reader = new StapReader();
             List<string> videoIds = reader.ReadVideoIds(STEPS_URI_UNVALIDATED, stapNumber.ToString(), instrument.Naam);
@@ -31,7 +31,7 @@ namespace StringFunApp.ClassLibrary.Models
                     videoInfos.Add(vi);
                 }
            }
-            Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, VideoLijst = videoInfos };
+            Stap inMemoryStap = new Stap { Instrument = instrument, Nummer = stapNumber, Boek = boek, VideoLijst = videoInfos };
             return inMemoryStap;
         }
 

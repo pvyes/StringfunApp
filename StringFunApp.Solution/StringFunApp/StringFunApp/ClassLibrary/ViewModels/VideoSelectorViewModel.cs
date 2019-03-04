@@ -61,17 +61,41 @@ namespace StringFunApp.ClassLibrary.ViewModels
             get { return noVideosVisibility; }
             set { noVideosVisibility = value; RaisePropertyChanged(nameof(NoVideosVisibility)); }
         }
-/*
-        private VideoInfo selectedVideo;
-        public VideoInfo SelectedVideo
+
+        private int headerHeight;
+        public int HeaderHeight
         {
-            get { return selectedVideo; }
-            set { selectedVideo = value; RaisePropertyChanged(nameof(SelectedVideo)); ShowVideo(selectedVideo); }
+            get { return headerHeight; }
+            set { headerHeight = value; RaisePropertyChanged(nameof(HeaderHeight)); }
         }
-*/
+
+        private string typeInstrument;
+        public string TypeInstrument
+        {
+            get { return typeInstrument; }
+            set { typeInstrument = value; RaisePropertyChanged(nameof(TypeInstrument)); }
+        }
+
+        private string boekNaam;
+        public string BoekNaam
+        {
+            get { return boekNaam; }
+            set { boekNaam = value; RaisePropertyChanged(nameof(BoekNaam)); }
+        }
+
+        private string stapNummer;
+        public string StapNummer
+        {
+            get { return stapNummer; }
+            set { stapNummer = value; RaisePropertyChanged(nameof(StapNummer)); }
+        }
+
         public VideoSelectorViewModel(Stap stap, INavigation navigation)
         {
             Videos = stap.VideoLijst;
+            typeInstrument = stap.Instrument.Naam;
+            stapNummer = "Stap " + stap.Nummer.ToString();
+            boekNaam = stap.Boek.Naam;
             noVideosAvailableMessage = NO_VIDEOS_AVAILABLE_MESSAGE;
             this.navigation = navigation;
             
@@ -79,10 +103,12 @@ namespace StringFunApp.ClassLibrary.ViewModels
             {
                 noVideosVisibility = true;
                 listVisibility = false;
+                headerHeight = 80;
             } else
             {
                 noVideosVisibility = false;
                 listVisibility = true;
+                headerHeight = 50;
             }
         }
 
@@ -90,10 +116,6 @@ namespace StringFunApp.ClassLibrary.ViewModels
             () => { navigation.PushAsync(new ContactView()); }
             );
 
-/*        public ICommand ShowVideoPlayer => new Command(
-            () => { Visible = true; }
-            );
-*/
         public ICommand ItemClickCommand
         {
             get
@@ -111,8 +133,8 @@ namespace StringFunApp.ClassLibrary.ViewModels
 
         public void ShowVideo(object sender, ItemTappedEventArgs e)
         {
-            VideoInfo vi = getVideoInfoByDisplayName((string)e.Item);
-            navigation.PushAsync(new VideoPlayerView(vi));
+            //VideoInfo vi = getVideoInfoByDisplayName((string)e.Item);
+            navigation.PushAsync(new VideoPlayerView((VideoInfo) e.Item));
         }
 
         private VideoInfo getVideoInfoByDisplayName(string displayName)
