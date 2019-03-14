@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
+             xmlns:local="clr-namespace:StringFunApp.ClassLibrary.ViewModels"
+             x:Class="StringFunApp.Views.VideoSelectorView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <StackLayout>
+                    <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                        <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+                    </FlexLayout>
+                    <FlexLayout JustifyContent="Center">
+                        <Label Margin="10" FontSize="Large" Text="{Binding TypeInstrument}"></Label>
+                        <Label Margin="10" FontSize="Large" Text="{Binding BoekNaam}"></Label>
+                        <Label Margin="10" FontSize="Large" Text="{Binding StapNummer}"></Label>
+                    </FlexLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{Binding HeaderHeight}"  />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <FlexLayout
+                        Grid.Row="0"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#ff4d4d"
+                        AlignItems="Center">
+                            <Label x:Name="NoVideosAvailable" 
+                           WidthRequest="300"
+                           Text="{Binding NoVideosAvailableMessage}"
+                           TextColor="White"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                        />
+                        </FlexLayout>
+                        <FlexLayout
+                        Grid.Row="0"
+                        IsVisible="{Binding ListVisibility}"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#2287b1"
+                        AlignItems="Center"
+                        >
+                            <Label x:Name="ListHeader"
+                            WidthRequest="300"
+                            Text="Kies een video."
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            TextColor="White"
+                            FontSize="Medium"
+                            />
+                        </FlexLayout>
+                        <FlexLayout
+                        Grid.Row="2"
+                        AlignContent="Center"
+                        IsVisible="{Binding ListVisibility}" 
+                        >
+                            <ListView 
+                            x:Name="VideoListView" 
+                            ItemsSource="{Binding Videos}" 
+                            >
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding DisplayName}"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center"
+                                                   HeightRequest="50"
+                                                   TextColor="Black"
+                                                   BackgroundColor="#eeeeee"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </FlexLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

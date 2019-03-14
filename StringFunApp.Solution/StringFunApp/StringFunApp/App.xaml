@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:conv="clr-namespace:StringFunApp.ClassLibrary.Converters"
+             x:Class="StringFunApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <conv:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConv"></conv:ItemTappedEventArgsConverter>
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#2287b1"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,97 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>STAP Roeselare</Authors>
+    <Company>STAP RoeselareSTAP Roeselare</Company>
+    <PackageId>StringFun</PackageId>
+    <Product>StringFun</Product>
+    <Description>This app supports Stringfun method for violin, viola and cello, as created by Dirk Lievens. Further information on www.stringfun.com.</Description>
+    <Copyright>STAP Roeselare</Copyright>
+    <PackageIconUrl>https://www.staproeselare.be/stringfun/images/stringfunicon.ico</PackageIconUrl>
+    <PackageTags>music education</PackageTags>
+    <AssemblyName>StringFun</AssemblyName>
+    <ApplicationIcon>stringfunicon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.17134.0\Windows.Foundation.UniversalApiContract\6.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VideoPlayerView - Copy.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VideoPlayerView.xaml.cs">
+      <DependentUpon>VideoPlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\VideoSelectorView.xaml.cs">
+      <DependentUpon>VideoSelectorView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ContactView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ErrorView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\StapView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\ContactView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\ErrorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\StapView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\VideoPlayerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\VideoSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+</Project>

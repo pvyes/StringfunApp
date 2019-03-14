@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:bhv="clr-namespace:StringFunApp.Behaviors"
+             xmlns:local="clr-namespace:StringFunApp.ClassLibrary.ViewModels"
+             x:Class="StringFunApp.Views.VideoPlayerView">
+    <ContentPage.Content>
+        <FlexLayout>
+            <video:VideoPlayer x:Name="videoPlayer" AutoPlay="true"></video:VideoPlayer>
+        </FlexLayout>
+    </ContentPage.Content>
+</ContentPage>

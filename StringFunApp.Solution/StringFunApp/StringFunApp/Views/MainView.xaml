@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StringFunApp.Views.MainView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Contact" Command="{Binding ViewContact}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <FlexLayout JustifyContent="Center" BackgroundColor="#2287b1">
+                <Image Source="https://www.staproeselare.be/stringfun/images/logo.png"></Image>
+            </FlexLayout>
+            <FlexLayout x:Name="InstrumentKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+            <FlexLayout x:Name="BoekKnoppen" Wrap="Wrap" JustifyContent="Center"></FlexLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
