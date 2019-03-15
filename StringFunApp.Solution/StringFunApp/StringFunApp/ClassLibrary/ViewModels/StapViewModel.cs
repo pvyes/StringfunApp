@@ -1,8 +1,10 @@
 ﻿using StringFunApp.ClassLibrary.Models;
 using StringFunApp.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -13,33 +15,36 @@ namespace StringFunApp.ClassLibrary.ViewModels
         public StapViewModel(INavigation navigation, int boeknummer, string typeinstrument, FlexLayout buttons)
         {
             this.navigation = navigation;
-            stringfun = Stringfun.Instance;
-            stapknoppen = buttons;
-            boek = stringfun.getBookByNumber(boeknummer);
-            this.typeinstrument = typeinstrument;
+            Stringfun = Stringfun.Instance;
+            StapKnoppen = buttons;
+            BoekNummer = boeknummer;
+            BoekNaam = "Boek " + boeknummer;
+            TypeInstrument = typeinstrument;
             try
             {
-                StappenLijst = stringfun.GetStappen(boeknummer);
+                StappenLijst = Stringfun.GetStappen(BoekNummer);
                 InitializeButtons();
             }
             catch (Exception exception)
             {
-                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = stringfun.GetStappen(boeknummer); InitializeButtons(); });
+                MessagingCenter.Subscribe(this, "Retry", (ErrorView sender) => { StappenLijst = Stringfun.GetStappen(BoekNummer); InitializeButtons(); });
                 this.navigation.PushModalAsync(new ErrorView(exception));
             }
         }
 
         #region properties
-        private Boek boek;
-        public Boek Boek
+        private int boeknummer;
+        public int BoekNummer
         {
-            get { return boek; }
-            set { boek = value; RaisePropertyChanged(nameof(Boek)); }
+            get { return boeknummer; }
+            set { boeknummer = value; RaisePropertyChanged(nameof(BoekNummer)); }
         }
 
+        private string boeknaam;
         public string BoekNaam
         {
-            get { return boek.Naam; }
+            get { return boeknaam; }
+            set { boeknaam = value; RaisePropertyChanged(nameof(BoekNaam)); }
         }
 
         private bool isloading;
@@ -71,16 +76,16 @@ namespace StringFunApp.ClassLibrary.ViewModels
             set { selectedstap = value; RaisePropertyChanged(nameof(SelectedStap)); }
         }
 
-        private FlexLayout stapknoppen;
+        private FlexLayout knoppen;
         public FlexLayout StapKnoppen
         {
-            get { return stapknoppen; }
-            set { stapknoppen = value; RaisePropertyChanged(nameof(StapKnoppen)); }
+            get { return knoppen; }
+            set { knoppen = value; RaisePropertyChanged(nameof(StapKnoppen)); }
         }
 
         private INavigation navigation;
 
-        private Stringfun stringfun;
+        private Stringfun Stringfun;
         #endregion
 
         public ICommand ViewStap => new Command<string>(
@@ -91,7 +96,7 @@ namespace StringFunApp.ClassLibrary.ViewModels
                 {
                     SelectedStap = selectedstap;
                     ChangeStapButtonStyle(SelectedStap);
-                    Stap NieuweStap = stringfun.getStap(SelectedStap, TypeInstrument, Boek);
+                    Stap NieuweStap = Stringfun.getStap(SelectedStap, TypeInstrument);
                     navigation.PushAsync(new VideoSelectorView(NieuweStap));
                 }
                 catch (Exception e)
